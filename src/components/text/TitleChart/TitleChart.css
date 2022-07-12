@@ -1,0 +1,16 @@
+.title-chart.left {
+  text-align: left;
+  font-size: 1.25rem;
+  color: var(--blue);
+}
+
+.title-chart.center {
+  text-align: center;
+  font-size: 1.12rem;
+  color: var(--blue);
+  margin-bottom: 1.5rem;
+}
+
+body {
+  padding: 20px;
+}
