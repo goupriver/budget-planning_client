@@ -29,6 +29,15 @@ button {
 input {
   border: none;
   padding: 0;
+  outline: none;
+}
+
+a {
+  text-decoration: none;
+}
+
+a:visited {
+  color: inherit;
 }
 
 #root {

@@ -19,5 +19,13 @@
   #  shadow  #
   ##########*/
 
-  --shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.15);
+  --shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.20);
+  --shadow-xs: 0 2px 4px 0 rgba(0, 0, 0, 0.15);
+
+
+  /*##########
+  #  radius  #
+  ##########*/
+
+  --radius: 0.625rem;
 }
