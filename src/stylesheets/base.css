@@ -43,3 +43,8 @@ h5 {
 h6 {
   font-size: 0.75rem;
 }
+
+body {
+  background-color: var(--cream);
+  padding: 1.5rem 1.25rem;
+}
