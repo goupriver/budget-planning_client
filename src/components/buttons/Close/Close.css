@@ -1,0 +1,25 @@
+.btn.close {
+  width: 1.25rem;
+  height: 1.25rem;
+  background-color: var(--black);
+  border-radius: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.btn.close.white {
+  background-color: var(--white);
+}
+
+.material-icons.black{
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--white);
+}
+
+.material-icons.white {
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--blck);
+}

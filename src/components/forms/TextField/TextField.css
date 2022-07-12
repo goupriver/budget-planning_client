@@ -1,0 +1,15 @@
+.text-field {
+  border: none;
+  border-bottom: 0.125px solid var(--heavenly);
+  color: var(--heavenly);
+  padding: 0.625rem 0;
+  text-align: center;
+  font-size: 2rem;
+  width: 100%;
+}
+
+.text-field:focus {
+  outline: none;
+  color: var(--blue);
+  border-bottom: 0.125rem solid var(--blue);
+}

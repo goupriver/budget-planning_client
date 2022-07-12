@@ -1,0 +1,35 @@
+.btn {
+  border-radius: var(--radius);
+  text-align: center;
+}
+
+.btn.primary {
+  padding: 1rem 0;
+  font-size: 1.12rem;
+  width: 100%;
+}
+
+.btn.primary.blue {
+  color: var(--white);
+  background-color: var(--blue);
+}
+
+.btn.primary.heavenly {
+  font-size: 1rem;
+  color: var(--blue);
+  background-color: var(--heavenly-transparent);
+}
+
+.btn.secondary.white {
+  padding: 0.325rem 0.875rem;
+  font-size:  0.875rem;
+  color: var(--white);
+  border: 0.0625rem solid var(--white);
+}
+
+.btn.secondary.blue {
+  padding: 0.325rem 1.625rem;
+  font-size: 0.875rem;
+  color: var(--blue);
+  border: 0.125rem solid var(--heavenly);
+}
