@@ -1,0 +1,6 @@
+.wrapper-chart {
+  padding: 1.25rem 1.25rem 2rem;
+  border-radius: var(--radius);
+  background: var(--white);
+  box-shadow: var(--shadow-xs);
+}
