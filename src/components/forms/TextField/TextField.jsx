@@ -1,7 +1,14 @@
-import './TextField.css' 
+import React from "react";
 
-export const TextField = ({onChange, value}) => {
+import styles from "./TextField.module.css";
+
+export const TextField = ({ onChange, value }) => {
   return (
-    <input type="text" className="text-field" onChange={onChange} value={value} />
-  )
-}
+    <input
+      type="text"
+      className={styles.module}
+      onChange={onChange}
+      value={value}
+    />
+  );
+};
