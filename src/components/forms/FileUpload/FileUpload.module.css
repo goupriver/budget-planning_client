@@ -8,7 +8,7 @@
   height: 5rem;
   border-radius: 100%;
   background-color: var(--white);
-  display: flex;
+  display: inline-flex;
   justify-content: center;
   align-items: center;
 }
