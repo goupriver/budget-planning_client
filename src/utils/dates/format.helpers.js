@@ -31,3 +31,12 @@ export function getFullDate(date) {
   ? format((date), "EEEE, d MMMM")
   : format(stringIntoDate(date), "EEEE, d MMMM")
 }
+
+export function getDayAndMonth(date) {
+  return typeof date === 'object' 
+  ? format((date), "d MMMM")
+  : format(stringIntoDate(date), "d MMMM")
+}
+
+
+
