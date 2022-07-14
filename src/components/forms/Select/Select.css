@@ -31,9 +31,8 @@
 
 .wrap_icon_text {
   position: relative;
-  /* padding: 0.625rem 2rem 0.325rem; */
   min-height: 100px;
-  width: 6.625rem;
+  width: 27.7vw;
   border: 0.220rem solid var(--heavenly);
   border-radius: 0.625rem;
   display: flex;
