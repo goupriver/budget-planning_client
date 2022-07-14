@@ -1,15 +1,11 @@
 import "./Horizontal.css";
 
 import { Chart } from "./Chart";
-import { ChartWrapper } from "..";
-import { TitleChart } from "components/text";
 
 export const Horizontal = () => {
   return (
     <>
-      <ChartWrapper>
-        <TitleChart align="left">Expenses</TitleChart>
-        <div className="chart-container-horizontal">
+      <div className="chart-container-horizontal">
         <Chart />
       </div>
       <div className="stats">
@@ -24,7 +20,6 @@ export const Horizontal = () => {
           <h4 className="price">2 000 $</h4>
         </div>
       </div>
-      </ChartWrapper>
     </>
   );
 };
