@@ -1,9 +1,10 @@
-import './Close.css'
+import styles from "./Close.module.css";
 
 export const Close = ({ onClick, variant }) => {
+  console.log(styles);
   return (
-    <button className={"btn close " + variant} onClick={onClick}>
-      <span class={"material-icons " + variant}>close</span>
+    <button className={styles.close + " " + styles[variant]} onClick={onClick}>
+      <span className={"material-icons " + styles["mi" + variant]}>close</span>
     </button>
   );
 };

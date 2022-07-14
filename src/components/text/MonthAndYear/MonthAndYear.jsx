@@ -1,4 +1,4 @@
-import './MonthAndYear.css'
+import styles from './MonthAndYear.module.css'
 import {getYear, getMonth} from 'utils/dates/format.helpers'
 
 export const MonthAndYear = ({children: date}) => {
@@ -6,7 +6,7 @@ export const MonthAndYear = ({children: date}) => {
   const year = getYear(date)
 
   return (
-    <div className="month_and_year">
+    <div className={styles.monthAndYear}>
       <h1>{month}</h1>
       <h6>{year}</h6>
     </div>

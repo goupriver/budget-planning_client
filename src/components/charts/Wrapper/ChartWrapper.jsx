@@ -1,5 +1,5 @@
-import "./ChartWrapper.css";
+import styles from "./ChartWrapper.module.css";
 
 export const ChartWrapper = ({ children }) => {
-  return <div className="wrapper-chart">{children}</div>;
+  return <div className={styles.wrapperChart}>{children}</div>;
 };
