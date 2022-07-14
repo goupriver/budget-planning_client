@@ -25,3 +25,9 @@ export function getYear(date) {
   ? format((date), "yyyy")
   : format(stringIntoDate(date), "yyyy")
 }
+
+export function getFullDate(date) {
+  return typeof date === 'object' 
+  ? format((date), "EEEE, d MMMM")
+  : format(stringIntoDate(date), "EEEE, d MMMM")
+}
