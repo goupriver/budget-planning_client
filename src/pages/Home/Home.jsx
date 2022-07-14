@@ -11,7 +11,7 @@ export const Home = () => {
     <div className={styles.wrapper}>
       <header>
         <Slider>
-          <ChartWrapper>
+          <ChartWrapper swiper={true}>
             <MonthAndYear>{new Date()}</MonthAndYear>
             <Doughnut />
             <div className={styles.centerButton}>

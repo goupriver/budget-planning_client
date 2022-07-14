@@ -5,7 +5,7 @@ import { Icon } from "components/media";
 import {
   Select,
   Switch,
-  TextField,
+  TextFieldAddExpense,
   FileUpload,
   Textarea,
 } from "components/forms";
@@ -13,7 +13,7 @@ import { getFullDate } from "utils/dates/format.helpers";
 
 export const AddExpense = () => {
   return (
-    <>
+    <div className={styles.container}>
       <div className={styles.wrapper}>
         <div className={styles.blue}>
           <h1>Add Expense</h1>
@@ -21,7 +21,7 @@ export const AddExpense = () => {
         </div>
         <div className={styles.white}>
           <span>Amount</span>
-          <TextField />
+          <TextFieldAddExpense placeholder="Enter" />
           <button>
             <span>{getFullDate(new Date())}</span>
             <Icon>calendar</Icon>
@@ -47,6 +47,6 @@ export const AddExpense = () => {
         </div>
       </main>
       <Button variant="primary_blue">Add</Button>
-    </>
+    </div>
   );
 };
