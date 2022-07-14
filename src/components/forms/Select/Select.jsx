@@ -2,7 +2,7 @@ import { useState } from "react";
 
 import "./Select.css";
 
-export const Select = () => {
+export const Select = ({type = "radio"}) => {
   const category = {
     'Bills': 'description',
     'Food': 'local_pizza',
@@ -18,7 +18,7 @@ export const Select = () => {
     <form className="categories">
       {Object.entries(category).map(([text, ico]) => (
         <label className="category__item" key={text}>
-          <input type="radio" name="category" value={text} onClick={e => setSelectCategory(e.target.value)}/>
+          <input type={type} name="category" value={text} onClick={e => setSelectCategory(e.target.value)}/>
           <div className="wrap_icon_text">
             <span className="icon material-icons">{ico}</span>
             <h4 className="text">{text}</h4>
