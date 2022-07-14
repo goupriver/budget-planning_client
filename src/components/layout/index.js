@@ -1,4 +1,4 @@
-import {ListExpenses} from './list/ListExpensesnses'
-import {Navbar} from './navigation/Navbar'
+import { Navbar } from "./navigation/Navbar/Navbar";
+import { ListExpenses } from "./list/ListExpenses";
 
-export {ListExpenses, Navbar}
+export { Navbar, ListExpenses };
