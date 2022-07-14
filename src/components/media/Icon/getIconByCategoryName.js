@@ -12,7 +12,9 @@ export function getIconByCategoryName(category) {
     add: "add",
     remove: "remove",
     chevronRight: "chevron_right",
+    chevronLeft: "chevron_left",
     calendar: "calendar_month",
+    balance: "balance",
   };
 
   return list[category];
