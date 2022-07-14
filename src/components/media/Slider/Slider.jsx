@@ -4,7 +4,7 @@ import "swiper/css/navigation";
 
 export const Slider = ({ children }) => {
   return (
-    <Swiper spaceBetween={15} className="mySwiper">
+    <Swiper spaceBetween={15}>
       <SwiperSlide>{children}</SwiperSlide>
     </Swiper>
   );

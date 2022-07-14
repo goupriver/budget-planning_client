@@ -3,31 +3,31 @@
   text-align: center;
 }
 
-.btn.primary {
+.primary_blue {
   padding: 1rem 0;
   font-size: 1.12rem;
   width: 100%;
-}
-
-.btn.primary.blue {
   color: var(--white);
   background-color: var(--blue);
 }
 
-.btn.primary.heavenly {
+.primary_heavenly {
+  padding: 1rem 0;
+  font-size: 1.12rem;
+  width: 100%;
   font-size: 1rem;
   color: var(--blue);
   background-color: var(--heavenly-transparent);
 }
 
-.btn.secondary.white {
+.secondary_white {
   padding: 0.325rem 0.875rem;
   font-size:  0.875rem;
   color: var(--white);
   border: 0.0625rem solid var(--white);
 }
 
-.btn.secondary.blue {
+.secondary_blue {
   padding: 0.325rem 1.625rem;
   font-size: 0.875rem;
   color: var(--blue);
