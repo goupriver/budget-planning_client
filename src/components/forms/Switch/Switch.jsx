@@ -1,12 +1,12 @@
 import "./Switch.css";
 
-export const Switch = ({ onClick, value }) => {
+export const Switch = ({ name, type, register }) => {
   return (
     <label className="switch">
       <input
-        type="checkbox"
-        value={value}
-        onClick={(e) => onClick(e)}
+        type={type}
+        name={name}
+        {...register(name)}
         className="input_hidden"
       />
       <span className="slider"></span>
