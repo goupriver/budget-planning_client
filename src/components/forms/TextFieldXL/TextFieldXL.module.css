@@ -19,3 +19,14 @@
   color: var(--blue);
   border-bottom: 0.125rem solid var(--blue);
 }
+
+.error {
+  display: flex;
+  align-items: center;
+  padding-top: 0.3rem;
+  color: var(--error);
+}
+
+.error > span {
+  margin-right: 0.3rem;
+}

@@ -1,30 +1,46 @@
-import { useState } from "react";
+import { Icon } from "components/media";
 
 import "./Select.css";
 
-export const Select = ({type = "radio"}) => {
+export const Select = ({
+  name,
+  type,
+  register,
+  errors,
+  options = undefined,
+}) => {
   const category = {
-    'Bills': 'description',
-    'Food': 'local_pizza',
-    'Clothes': 'checkroom',
-    'Transport': 'drive_eta',
-    'Fun': 'videogame_asset',
-    'Other': 'file_present'
-  } 
-
-  const [selectCategory, setSelectCategory] = useState('')
+    Bills: "description",
+    Food: "local_pizza",
+    Clothes: "checkroom",
+    Transport: "drive_eta",
+    Fun: "videogame_asset",
+    Other: "file_present",
+  };
 
   return (
-    <form className="categories">
-      {Object.entries(category).map(([text, ico]) => (
-        <label className="category__item" key={text}>
-          <input type={type} name="category" value={text} onClick={e => setSelectCategory(e.target.value)}/>
-          <div className="wrap_icon_text">
-            <span className="icon material-icons">{ico}</span>
-            <h4 className="text">{text}</h4>
-          </div>
-        </label>
-      ))}
-    </form>
+    <>
+      <div className="categories">
+        {Object.entries(category).map(([text, ico]) => (
+          <label className="category__item" key={text}>
+            <input
+              value={text}
+              type={type}
+              {...register(name, options)}
+            />
+            <div className="wrap_icon_text">
+              <span className="icon material-icons">{ico}</span>
+              <h4 className="text">{text}</h4>
+            </div>
+          </label>
+        ))}
+      </div>
+
+      {errors[name]?.message && (
+        <div className="error__field">
+          <Icon>error</Icon> <h5>{errors[name].message}</h5>
+        </div>
+      )}
+    </>
   );
 };

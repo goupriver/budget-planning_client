@@ -32,3 +32,14 @@
 .input[type="number"]::placeholder { 
   color: var(--heavenly); 
 }
+
+.error {
+  display: flex;
+  align-items: center;
+  padding-top: 0.3rem;
+  color: var(--error);
+}
+
+.error > span {
+  margin-right: 0.3rem;
+}

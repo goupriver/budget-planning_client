@@ -1,24 +1,31 @@
+import { Icon } from "components/media";
+
 import styles from "./TextFieldAddExpense.module.css";
 
 export const TextFieldAddExpense = ({
-  onChange,
-  value,
   name,
-  id,
-  placeholder,
+  type,
+  register,
+  errors,
+  options = undefined,
 }) => {
   return (
-    <div className={styles.wrapper}>
-      <input
-      placeholder={placeholder}
-      name={name}
-      id={id}
-      type="number"
-      className={styles.input}
-      onChange={onChange}
-      value={value}
-    />
-    <span>$</span>
-    </div>
+    <>
+      <div className={styles.wrapper}>
+        <input
+          name={name}
+          type={type}
+          {...register(name, options)}
+          className={styles.input}
+        />
+        <span>$</span>
+      </div>
+      
+      {errors[name]?.message && (
+        <div className={styles.error}>
+          <Icon>error</Icon> <h5>{errors[name].message}</h5>
+        </div>
+      )}
+    </>
   );
 };
