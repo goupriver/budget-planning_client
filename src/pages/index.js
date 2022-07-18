@@ -9,6 +9,7 @@ import { Filter } from "./Filter/Filter";
 import { AboutUnit } from "./AboutUnit/AboutUnit";
 import { CompareSelectDate } from "./CompareSelectDate/CompareSelectDate";
 import { Compare } from "./Compare/Compare";
+import { AddExpense } from "./AddExpense/AddExpense";
 
 export {
   LogIn,
@@ -22,4 +23,5 @@ export {
   AboutUnit,
   CompareSelectDate,
   Compare,
+  AddExpense
 };
