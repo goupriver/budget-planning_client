@@ -1,5 +1,17 @@
+import { Route, Routes } from "react-router-dom";
+
+import { ScrollToTop } from "components/other";
+import { LogIn } from "pages";
+
 const App = () => {
-  return <h1>Hello World</h1>;
+  return (
+    <>
+      <ScrollToTop />
+      <Routes>
+        <Route path="/login" element={<LogIn />} />
+      </Routes>
+    </>
+  );
 };
 
 export default App;
