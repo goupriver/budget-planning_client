@@ -3,10 +3,10 @@ import { getCurrencySymbol } from "utils/currency.helpers";
 import { Icon } from "components/media";
 import { dateOfMonth, dateOfWeek } from "utils/dates/format.helpers";
 
-import { api, currencyUserApi } from "data/data";
+import { expense, user } from "data/data";
 
 export const ListExpenses = () => {
-  const data = api;
+  const data = expense;
   const listOfDates = Object.keys(data);
 
   return (
@@ -18,7 +18,7 @@ export const ListExpenses = () => {
               <h4 className="number">{dateOfMonth(date)}</h4>
               <h4 className="date">{dateOfWeek(date)}</h4>
             </div>
-            {data[date].map(({ category, price, id }) => (
+            {data[date].map(({ category, amount, id }) => (
               <div className="list" key={id}>
                 <span className="category-icon material-icons">
                   <Icon variant="category-icon">{category}</Icon>
@@ -26,7 +26,7 @@ export const ListExpenses = () => {
                 <div className="category-and-price">
                   <h4 className="category">{category}</h4>
                   <h3 className="price">
-                    {price} {getCurrencySymbol(currencyUserApi)}
+                    {amount} {getCurrencySymbol(user.currency)}
                   </h3>
                 </div>
               </div>
