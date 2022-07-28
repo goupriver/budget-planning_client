@@ -1,6 +1,7 @@
-import styles from "./AddExpense.module.css";
-
 import { useForm } from "react-hook-form";
+import { useNavigate } from "react-router-dom";
+
+import styles from "./AddExpense.module.css";
 
 import { Button, Close } from "components/buttons";
 import { Icon } from "components/media";
@@ -14,6 +15,7 @@ import {
 import { getFullDate } from "utils/dates/format.helpers";
 
 export const AddExpense = () => {
+  const navigate = useNavigate();
   const {
     register,
     handleSubmit,
@@ -27,13 +29,19 @@ export const AddExpense = () => {
     console.log("onSubmit >>> ", data);
     console.log({ ...data, date: JSON.stringify(new Date()) });
     // reset(); // -очистка всех полей формы
+    navigate("/", { replace: true });
   };
+
+  const onCloseClick = () => {
+    navigate(-1);
+  };
+
   return (
     <form className={styles.container} onSubmit={handleSubmit(onSubmit)}>
       <div className={styles.wrapper}>
         <div className={styles.blue}>
           <h1>Add Expense</h1>
-          <Close variant="white" />
+          <Close onClick={onCloseClick} variant="white" />
         </div>
         <div className={styles.white}>
           <span>Amount</span>

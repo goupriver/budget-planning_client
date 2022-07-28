@@ -24,7 +24,7 @@ export const Settings = () => {
         </button>
         <div className={styles.switch}>
           <span className={styles.name}>Use Face ID</span>
-          <Switch />
+          <Switch type="checkbox" />
         </div>
         <div className={styles.currency}>
           <div className={styles.name}>Currency</div>

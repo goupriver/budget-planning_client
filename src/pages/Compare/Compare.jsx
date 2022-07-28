@@ -1,15 +1,22 @@
 import { ChartWrapper, Horizontal, Vertical } from "components/charts";
 import { Icon } from "components/media";
 import { TitleChart } from "components/text";
+import { useNavigate } from "react-router-dom";
 import { getMonth, getYear } from "utils/dates/format.helpers";
 import styles from "./Compare.module.css";
 
 export const Compare = () => {
+  const navigate = useNavigate();
+
+  const onComeBackClick = () => {
+    navigate("/stats/", { replace: true });
+  };
+
   return (
     <div className={styles.wrapper}>
       <header>
         <div className={styles.title}>
-          <button>
+          <button onClick={onComeBackClick}>
             <Icon>chevronLeft</Icon>
           </button>
           <h3>Compare</h3>
