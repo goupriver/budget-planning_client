@@ -1,3 +1,4 @@
 import { ScrollToTop } from "./scroll/ScrollToTop";
+import { Layout } from "./Layout/Layout";
 
-export { ScrollToTop };
+export { ScrollToTop, Layout };
