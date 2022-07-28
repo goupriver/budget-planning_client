@@ -1,32 +1,29 @@
 import { Icon } from "components/media";
+import { Link } from "react-router-dom";
 import "./Navbar.css";
 
 export const Navbar = () => {
   return (
     <ul className="navbar">
       <li className="item home">
-        <a className="link" href="#">
+        <Link className="link" to="/">
           <Icon variant="icon">feed</Icon>
-          <h6 className="title">Home</h6>
-        </a>
+        </Link>
       </li>
       <li className="item stats">
-        <a className="link" href="#">
+        <Link className="link" to="stats">
           <Icon variant="icon">stats</Icon>
-          <h6 className="title">Stats</h6>
-        </a>
+        </Link>
       </li>
       <li className="item settings">
-        <a className="link" href="#">
+        <Link className="link" to="settings">
           <Icon variant="icon">settings</Icon>
-          <h6 className="title">Settings</h6>
-        </a>
+        </Link>
       </li>
       <li className="item add">
-        <a className="link" href="#">
+        <Link className="link" to="add">
           <Icon variant="icon">add</Icon>
-          <h6 className="title active">Add</h6>
-        </a>
+        </Link>
       </li>
     </ul>
   );

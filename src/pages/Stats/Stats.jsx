@@ -1,25 +1,40 @@
+import { Outlet, useNavigate } from "react-router-dom";
+
 import { TabBar } from "components/forms";
 import { Icon } from "components/media";
-import { ExpensesLog } from "./ExpensesLog/ExpensesLog";
 import styles from "./Stats.module.css";
 
 export const Stats = () => {
+  const navigate = useNavigate();
+
+  const onNavigateClick = (e) => {
+    e.target.checked ? navigate("log") : navigate("general");
+  };
+
+  const onCompareClick = () => {
+    navigate("/stats/compare");
+  };
+
+  const onOpenCalendarClick = () => {
+    navigate("/stats/calendar");
+  };
+
   return (
     <>
       <header className={styles.header}>
         <h1 className={styles.name}>Stats</h1>
         <div className={styles.buttons}>
-          <button>
+          <button onClick={onCompareClick}>
             <Icon>balance</Icon>
           </button>
-          <button>
+          <button onClick={onOpenCalendarClick}>
             <Icon>calendar</Icon>
           </button>
         </div>
       </header>
-      <TabBar first="General" last="Expenses Log" />
+      <TabBar onClick={onNavigateClick} first="General" last="Expenses Log" />
       <main className={styles.main}>
-        <ExpensesLog />{" "}
+        <Outlet />
       </main>
     </>
   );

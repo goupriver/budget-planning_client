@@ -39,3 +39,11 @@
 .wrapper .category:not(:last-child) {
   border-bottom: 0.0625rem solid var(--heavenly-transparent);
 }
+
+.amount, .cat {
+  color: var(--blue);
+}
+
+.details {
+  font-weight: 400;
+}
