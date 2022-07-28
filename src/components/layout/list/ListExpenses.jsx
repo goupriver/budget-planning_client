@@ -4,6 +4,7 @@ import { Icon } from "components/media";
 import { dateOfMonth, dateOfWeek } from "utils/dates/format.helpers";
 
 import { expense, user } from "data/data";
+import { Link } from "react-router-dom";
 
 export const ListExpenses = () => {
   const data = expense;
@@ -19,17 +20,19 @@ export const ListExpenses = () => {
               <h4 className="date">{dateOfWeek(date)}</h4>
             </div>
             {data[date].map(({ category, amount, id }) => (
-              <div className="list" key={id}>
-                <span className="category-icon material-icons">
-                  <Icon variant="category-icon">{category}</Icon>
-                </span>
-                <div className="category-and-price">
-                  <h4 className="category">{category}</h4>
-                  <h3 className="price">
-                    {amount} {getCurrencySymbol(user.currency)}
-                  </h3>
+              <Link to={`/item/${id}`}>
+                <div className="list" key={id}>
+                  <span className="category-icon material-icons">
+                    <Icon variant="category-icon">{category}</Icon>
+                  </span>
+                  <div className="category-and-price">
+                    <h4 className="category">{category}</h4>
+                    <h3 className="price">
+                      {amount} {getCurrencySymbol(user.currency)}
+                    </h3>
+                  </div>
                 </div>
-              </div>
+              </Link>
             ))}
           </div>
         );
