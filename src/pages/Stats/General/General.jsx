@@ -4,8 +4,8 @@ import {
   DoughnutXS,
   String,
   VerticalSingle,
-} from "components/charts";
-import { MonthAndYear, TitleChart } from "components/text";
+} from "common/charts";
+import { MonthAndYear, TitleChart } from "common/text";
 
 import styles from "./General.module.css";
 

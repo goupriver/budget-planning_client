@@ -1,6 +1,6 @@
-import { Close } from "components/buttons";
+import { Close } from "common/buttons";
 import { useNavigate } from "react-router-dom";
-import { dateOfWeek, getDayAndMonth } from "utils/dates/format.helpers";
+import { dateOfWeek, getDayAndMonth } from "services/dates/format.helpers";
 import styles from "./AboutUnit.module.css";
 
 export const AboutUnit = () => {

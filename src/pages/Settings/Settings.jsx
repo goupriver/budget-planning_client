@@ -1,8 +1,8 @@
 import styles from "./Settings.module.css";
 
-import { Button } from "components/buttons";
-import { Icon } from "components/media";
-import { Switch } from "components/forms";
+import { Button } from "common/buttons";
+import { Icon } from "common/media";
+import { Switch } from "common/forms";
 
 export const Settings = () => {
   return (

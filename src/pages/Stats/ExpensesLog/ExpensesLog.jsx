@@ -1,5 +1,5 @@
-import { ListExpenses } from "components/layout";
-import { MonthAndYear } from "components/text";
+import { ListExpenses } from "features/expenses/ListExpenses/ListExpenses";
+import { MonthAndYear } from "common/text";
 import { useNavigate } from "react-router-dom";
 import styles from "./ExpensesLog.module.css";
 

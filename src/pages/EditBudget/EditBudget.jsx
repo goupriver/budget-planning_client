@@ -1,9 +1,9 @@
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 
-import { Button, Close } from "components/buttons";
-import { TextFieldXL } from "components/forms";
-import { MonthAndYear } from "components/text";
+import { Button, Close } from "common/buttons";
+import { TextFieldXL } from "common/forms";
+import { MonthAndYear } from "common/text";
 import styles from "./EditBudget.module.css";
 
 export const EditBudget = () => {

@@ -2,8 +2,8 @@ import styles from "./Register.module.css";
 
 import { useForm } from "react-hook-form";
 
-import { TextField } from "components/forms";
-import { Button } from "components/buttons";
+import { TextField } from "common/forms";
+import { Button } from "common/buttons";
 
 export const Register = () => {
   const {
