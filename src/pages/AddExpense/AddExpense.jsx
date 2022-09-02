@@ -1,33 +1,36 @@
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
 
 import styles from "./AddExpense.module.css";
 
-import { Button, Close } from "components/buttons";
-import { Icon } from "components/media";
+import { getFullDate } from "services/dates/format.helpers";
+import { Icon } from "common/media";
+import { Button, Close } from "common/buttons";
 import {
   Select,
   Switch,
   TextFieldAddExpense,
   FileUpload,
   Textarea,
-} from "components/forms";
-import { getFullDate } from "utils/dates/format.helpers";
+} from "common/forms";
+import { addExpense } from "features/expenses/expensesSlice";
 
 export const AddExpense = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+
   const {
     register,
     handleSubmit,
-    reset,
+    // reset,
     formState: { errors },
   } = useForm({
     mode: "onFocus", // ошибки проверяются после потери фокуса
   });
 
   const onSubmit = (data) => {
-    console.log("onSubmit >>> ", data);
-    console.log({ ...data, date: JSON.stringify(new Date()) });
+    dispatch(addExpense({ ...data, date: new Date() }));
     // reset(); // -очистка всех полей формы
     navigate("/", { replace: true });
   };
@@ -74,7 +77,7 @@ export const AddExpense = () => {
           />
           <div className={styles.remember}>
             <span>Add This Bill Each Month</span>
-            <Switch name="remember" type="checkbox" register={register} />
+            <Switch name="repeat" type="checkbox" register={register} />
           </div>
         </div>
         <div className={styles.photo}>
