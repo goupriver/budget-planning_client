@@ -1,14 +1,17 @@
-import { Add, Button } from "components/buttons";
-import { ChartWrapper, Doughnut } from "components/charts";
-import { ListExpenses } from "components/layout";
-import { Slider } from "components/media";
-import { MonthAndYear } from "components/text";
-import { expense } from "data/data";
 import { Link, useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
+
+import { Add, Button } from "common/buttons";
+import { ChartWrapper, Doughnut } from "common/charts";
+import { ListExpenses } from "features/expenses/ListExpenses/ListExpenses";
+import { Slider } from "common/media";
+import { MonthAndYear } from "common/text";
+import { selectAllExpenses } from "features/expenses/expensesSlice";
 
 import styles from "./Home.module.css";
 
 export const Home = () => {
+  const expenses = useSelector(selectAllExpenses);
   const navigate = useNavigate();
 
   const onOpenEditBudgetClick = () => {
@@ -30,7 +33,7 @@ export const Home = () => {
           </ChartWrapper>
         </Slider>
       </header>
-      {Object.keys(expense).length ? (
+      {Object.keys(expenses).length ? (
         <main>
           <div className={styles.seeAll}>
             <div>Lost Expenses</div>

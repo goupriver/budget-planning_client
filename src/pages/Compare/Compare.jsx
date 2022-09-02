@@ -1,8 +1,8 @@
-import { ChartWrapper, Horizontal, Vertical } from "components/charts";
-import { Icon } from "components/media";
-import { TitleChart } from "components/text";
+import { ChartWrapper, Horizontal, Vertical } from "common/charts";
+import { Icon } from "common/media";
+import { TitleChart } from "common/text";
 import { useNavigate } from "react-router-dom";
-import { getMonth, getYear } from "utils/dates/format.helpers";
+import { getMonth, getYear } from "services/dates/format.helpers";
 import styles from "./Compare.module.css";
 
 export const Compare = () => {

@@ -1,5 +1,5 @@
-import { Button } from "components/buttons";
-import { DatePicker as DatePickerLib } from "components/forms";
+import { Button } from "common/buttons";
+import { DatePicker as DatePickerLib } from "common/forms";
 import { useNavigate } from "react-router-dom";
 import styles from "./CompareSelectDate.module.css";
 

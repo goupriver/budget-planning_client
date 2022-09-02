@@ -1,5 +1,5 @@
-import { Close, Button } from "components/buttons";
-import { RangeSlider, Select } from "components/forms";
+import { Close, Button } from "common/buttons";
+import { RangeSlider, Select } from "common/forms";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import styles from "./Filter.module.css";
