@@ -49,3 +49,11 @@ body {
   padding-left: 1.25rem;
   padding-right: 1.25rem;
 }
+
+a:visited {
+  color: var(--blue);
+}
+
+a {
+  color: var(--blue);
+}
