@@ -6,10 +6,6 @@
   margin-bottom: 20px;
 }
 
-.list-expenses {
-  padding-bottom: 4rem;
-}
-
 .list-expenses .day-of-the-week {
   display: flex;
   align-items: center;

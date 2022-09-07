@@ -33,15 +33,14 @@ export const Home = () => {
           </ChartWrapper>
         </Slider>
       </header>
-      {Object.keys(expenses).length ? (
-        <main>
-          <div className={styles.seeAll}>
-            <div>Lost Expenses</div>
-            <Link to="stats">See all</Link>
-          </div>
-          <ListExpenses />
-        </main>
-      ) : (
+      <main>
+        <div className={styles.seeAll}>
+          <div>Lost Expenses</div>
+          <Link to="stats/log">See all</Link>
+        </div>
+        <ListExpenses />
+      </main>
+      {!!Object.keys(expenses).length || (
         <div className={styles.add}>
           <Add />
           <h5>Add Expense</h5>
