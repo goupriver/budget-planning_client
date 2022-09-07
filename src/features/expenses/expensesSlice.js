@@ -1,100 +1,97 @@
-import { faker } from "@faker-js/faker";
-import { createSlice } from "@reduxjs/toolkit";
-import { formatISO, parseISO } from "date-fns";
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { getDayMonthYearString } from "services/dates/format.helpers";
+import { add, get } from "services/firebase/ferestore/firestore";
 
 const initialState = {
-  expenses: {
-    "2022-08-08": [
-      {
-        category: "Food",
-        amount: faker.finance.amount(60, 800, 0),
-        id: faker.random.numeric(5),
-        repeat: faker.datatype.boolean(),
-        photo: faker.image.food(),
-        detail: faker.lorem.text(),
-        date: "2022-08-08T08:15:02.124Z",
-      },
-      {
-        category: "Clothes",
-        amount: faker.finance.amount(60, 800, 0),
-        id: faker.random.numeric(5),
-        repeat: faker.datatype.boolean(),
-        photo: faker.image.food(),
-        detail: faker.lorem.text(),
-        date: "2022-08-08T12:15:02.124Z",
-      },
-    ],
-    "2022-08-09": [
-      {
-        category: "Food",
-        amount: faker.finance.amount(60, 800, 0),
-        id: faker.random.numeric(5),
-        repeat: faker.datatype.boolean(),
-        photo: faker.image.food(),
-        detail: faker.lorem.text(),
-        date: "2022-08-09T08:15:02.124Z",
-      },
-      {
-        category: "Clothes",
-        amount: faker.finance.amount(60, 800, 0),
-        id: faker.random.numeric(5),
-        repeat: faker.datatype.boolean(),
-        photo: faker.image.food(),
-        detail: faker.lorem.text(),
-        date: "2022-08-09T14:15:02.124Z",
-      },
-    ],
-    "2022-08-10": [],
-    "2022-08-11": [
-      {
-        category: "Food",
-        amount: faker.finance.amount(60, 800, 0),
-        id: faker.random.numeric(5),
-        repeat: faker.datatype.boolean(),
-        photo: faker.image.food(),
-        detail: faker.lorem.text(),
-        date: "2022-08-11T10:15:02.124Z",
-      },
-    ],
-  },
+  expenses: {},
   error: null,
   status: "idle", // idle | loading | succeeded | failed
 };
 
+export const addExpense = createAsyncThunk(
+  "expenses/addExpense",
+  async (expense, { rejectWithValue }) => {
+    try {
+      const data = await add(expense);
+      return {
+        ...expense,
+        id: data,
+        date: getDayMonthYearString(expense.date),
+      };
+    } catch (err) {
+      return rejectWithValue(err);
+    }
+  }
+);
+
+export const fetchExpenses = createAsyncThunk(
+  "expenses/fetchExpenses",
+  async (_, { rejectWithValue }) => {
+    try {
+      const data = await get();
+      return data;
+    } catch (err) {
+      console.log(err);
+    }
+  }
+);
+
 export const expensesSlice = createSlice({
   name: "expenses",
   initialState,
-  reducers: {
-    addExpense: {
-      reducer: (state, action) => {
-        const date = getDayMonthYearString(parseISO(action.payload.date));
+  extraReducers: (builder) => {
+    builder
+      .addCase(addExpense.pending, (state, action) => {
+        state.error = null;
+        state.status = "loading";
+      })
+      .addCase(addExpense.fulfilled, (state, action) => {
+        const date = action.payload.date;
+
         if (state.expenses[date]) {
           state.expenses[date].push(action.payload);
         } else {
           state.expenses[date] = [];
           state.expenses[date].push(action.payload);
         }
-      },
-      prepare: (init) => {
-        const date = formatISO(init.date);
-        return {
-          payload: {
-            // TODO: убрать id поле, id будет генерироваться на сервере
-            id: String(Date.now()),
-            ...init,
-            date,
-            // TODO: разобраться как отправлять файлы в редьюсерах и по сети
-            file: null,
-          },
-        };
-      },
-    },
+        state.status = "succeeded";
+      })
+      .addCase(addExpense.rejected, (state, action) => {
+        state.error = action.payload;
+        state.status = "failed";
+      })
+      .addCase(fetchExpenses.pending, (state, action) => {
+        state.error = null;
+        state.status = "loading";
+      })
+      .addCase(fetchExpenses.fulfilled, (state, action) => {
+        action.payload.forEach((el) => {
+          if (state.expenses[getDayMonthYearString(el.date)]) {
+            state.expenses[getDayMonthYearString(el.date)].push(el);
+          } else {
+            state.expenses[getDayMonthYearString(el.date)] = [];
+            state.expenses[getDayMonthYearString(el.date)].push(el);
+          }
+        });
+        state.status = "succeeded";
+      })
+      .addCase(fetchExpenses.rejected, (state, action) => {
+        state.status = "failed";
+        state.error = action.payload;
+      });
   },
 });
 
 export default expensesSlice.reducer;
 
-export const { addExpense } = expensesSlice.actions;
-
 export const selectAllExpenses = (state) => state.expenses.expenses;
+
+export const selectExpenseById = (state, expenseId) => {
+  const expenses = state.expenses.expenses;
+  const expensesList = Object.values(expenses).flat();
+  const expenseDesired = expensesList.find((el) => el.id === expenseId);
+  return expenseDesired;
+};
+
+export const selectErrorExpenses = (state) => state.expenses.error;
+export const selectStatusExpenses = (state) => state.expenses.status;

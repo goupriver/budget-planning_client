@@ -30,8 +30,8 @@ export const AddExpense = () => {
   });
 
   const onSubmit = (data) => {
-    dispatch(addExpense({ ...data, date: new Date() }));
     // reset(); // -очистка всех полей формы
+    dispatch(addExpense({...data, file: null, date: new Date()}))
     navigate("/", { replace: true });
   };
 

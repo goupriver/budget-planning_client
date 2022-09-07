@@ -5,6 +5,9 @@ import { Provider } from "react-redux";
 import "index.css";
 import App from "app/App";
 import { store } from "app/store";
+import { fetchExpenses } from "features/expenses/expensesSlice";
+
+store.dispatch(fetchExpenses())
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <BrowserRouter>
