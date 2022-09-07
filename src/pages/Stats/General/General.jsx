@@ -7,8 +7,6 @@ import {
 } from "common/charts";
 import { MonthAndYear, TitleChart } from "common/text";
 
-import styles from "./General.module.css";
-
 export const General = () => {
   return (
     <>
