@@ -7,7 +7,7 @@ export function getDayMonthYearString(date) {
 }
 
 export function dateOfWeek(date) {
-  return typeof date === "object"
+  return typeof date === 'number'
     ? format(date, "iiii")
     : format(stringIntoDate(date), "iiii");
 }
@@ -37,7 +37,7 @@ export function getFullDate(date) {
 }
 
 export function getDayAndMonth(date) {
-  return typeof date === "object"
+  return typeof date === "number"
     ? format(date, "d MMMM")
     : format(stringIntoDate(date), "d MMMM");
 }

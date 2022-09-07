@@ -33,7 +33,7 @@ const App = () => {
         </Route>
         <Route path="add" element={<AddExpense />} />
         <Route path="edit" element={<EditBudget />} />
-        <Route path="item/:id" element={<AboutUnit />} />
+        <Route path="item/:expenseId" element={<AboutUnit />} />
         <Route path="stats/compare/" element={<CompareSelectDate />} />
         <Route path="stats/compare/result" element={<Compare />} />
         <Route path="stats/calendar" element={<DatePicker />} />
