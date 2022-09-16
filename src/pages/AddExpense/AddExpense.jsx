@@ -4,8 +4,6 @@ import { useDispatch } from "react-redux";
 
 import styles from "./AddExpense.module.css";
 
-import { getFullDate } from "services/dates/format.helpers";
-import { Icon } from "common/media";
 import { Button, Close } from "common/buttons";
 import {
   Select,
@@ -15,23 +13,25 @@ import {
   Textarea,
 } from "common/forms";
 import { addExpense } from "features/expenses/expensesSlice";
+import { SelectDate } from "./common/SelectDate/SelectDate";
+import { useState } from "react";
 
 export const AddExpense = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const [date, setDate] = useState(new Date());
 
   const {
     register,
     handleSubmit,
-    // reset,
     formState: { errors },
   } = useForm({
-    mode: "onFocus", // ошибки проверяются после потери фокуса
+    shouldFocusError: true,
+    mode: "onSubmit",
   });
 
-  const onSubmit = (data) => {
-    // reset(); // -очистка всех полей формы
-    dispatch(addExpense({...data, file: null, date: new Date()}))
+  const onSubmit = async (data) => {
+    await dispatch(addExpense({ ...data, amount: Number(data.amount), file: null, date}));
     navigate("/", { replace: true });
   };
 
@@ -57,13 +57,10 @@ export const AddExpense = () => {
               required: { value: true, message: "enter number" },
             }}
           />
-          <button>
-            <span>{getFullDate(new Date())}</span>
-            <Icon>calendar</Icon>
-          </button>
         </div>
       </div>
-      <main>
+      <SelectDate date={date} setDate={setDate} />
+      <main className={styles.bottom}>
         <div className={styles.category}>
           <span>Select Category</span>
           <Select

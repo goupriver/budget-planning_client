@@ -19,7 +19,7 @@ export const data = {
   datasets: [
     {
       label: "# of Votes",
-      data: [1.5, 10],
+      data: [30, 70],
       backgroundColor: ["#214FF1", "#F8F8F8"],
       borderColor: ["#214FF1", "#214FF1"],
       borderWidth: 2,
@@ -32,6 +32,26 @@ export const data = {
   ],
 };
 
-export function Chart() {
+export function Chart({percentage}) {
+
+
+  const data = {
+    labels: ["Spent", "Left"],
+    datasets: [
+      {
+        label: "",
+        data: [percentage, percentage > 100 ? 0 : 100 - percentage],
+        backgroundColor: ["#214FF1", "#F8F8F8"],
+        borderColor: ["#214FF1", "#214FF1"],
+        borderWidth: 2,
+        rotation: 0,
+        circumference: 360,
+        animation: {
+          animateRotate: true,
+        },
+      },
+    ],
+  };
+
   return <Doughnut options={options} data={data} />;
 }

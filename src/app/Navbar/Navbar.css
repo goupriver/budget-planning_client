@@ -1,5 +1,6 @@
 .navbar {
   position: fixed;
+  z-index: 999;
   width: 100%;
   left: 0;
   bottom: 0;
@@ -7,6 +8,7 @@
   justify-content: space-around;
   background-color: var(--cream);
   padding: 0.8rem 0;
+  box-shadow: var(--shadow-navbar);
 }
 
 .navbar .item {

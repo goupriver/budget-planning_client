@@ -11,16 +11,25 @@ import { useState } from "react";
 
 import { style } from "./RangeSlider.styles";
 
-export const RangeSlider = () => {
-  const [[first, second], setSliderValue] = useState([50, 80]);
-
+export const RangeSlider = ({ setRangeData, expensesSum }) => {
+  const [[first, second], setSliderValue] = useState([
+    Math.floor(expensesSum / 3),
+    Math.floor(expensesSum / 3 + expensesSum / 3),
+  ]);
+  const setValue = (val) => {
+    setSliderValue(val);
+    setRangeData([first, second]);
+  };
   return (
     <ChakraProvider>
       <Slider
-        defaultValue={[50, 80]}
+        defaultValue={[
+          Math.floor(expensesSum / 3),
+          Math.floor(expensesSum / 3 + expensesSum / 3),
+        ]}
         min={0}
-        max={300}
-        onChange={(val) => setSliderValue(val)}
+        max={expensesSum}
+        onChange={(val) => setValue(val)}
       >
         <RangeSliderMark value={first} {...style.rangeSliderMark}>
           {first}

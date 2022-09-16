@@ -1,0 +1,29 @@
+.wrapper {
+  display: block;
+  position: relative;
+  z-index: 999;
+}
+
+.date {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 1.25rem;
+  color: var(--blue);
+  margin-top: 2.1rem;
+  padding-bottom: 2.1rem;
+}
+
+.position {
+  position: absolute;
+  display: flex;
+  justify-content: right;
+  width: 100%;
+}
+
+.modal {
+  padding: 1rem 1.5rem;border-radius: var(--radius);
+  box-shadow: var(--shadow-modal);
+  background-color: var(--cream);
+}
