@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -7,8 +7,9 @@ import {
   Title,
   Tooltip,
   Legend,
-} from 'chart.js';
-import { Bar } from 'react-chartjs-2';
+} from "chart.js";
+import { Bar } from "react-chartjs-2";
+import { getShortMonth } from "services/dates/format.helpers";
 
 ChartJS.register(
   CategoryScale,
@@ -21,25 +22,25 @@ ChartJS.register(
 
 export const options = {
   responsive: true,
-  indexAxis: 'x',
+  indexAxis: "x",
   scales: {
     x: {
       display: true,
       ticks: {
         minRotation: 90,
         mirror: false,
-        color: '#000',
+        color: "#000",
       },
       grid: {
-        borderColor: 'transparent',
+        borderColor: "transparent",
         drawOnChartArea: false,
         drawTicks: true,
-        tickColor: 'transparent'
-      }
+        tickColor: "transparent",
+      },
     },
     y: {
-      display: false
-    }
+      display: false,
+    },
   },
   plugins: {
     legend: {
@@ -51,29 +52,47 @@ export const options = {
   },
 };
 
-// TOTAL >>> передавать как отдельное значение это общий тотал расходов или бюджетаъ
-// labels: [total <переменная>, ...]
+export function Chart({ content }) {
 
-export const data = {
-  labels: ['Totals', 'Bills', 'Food', 'Clothes', 'Transport', 'Fun', 'Other'],
-  datasets: [
-    {
-      label: 'Sept',
-      data: [887, 346,233,234,798,238,764,134],
-      backgroundColor: '#214FF1',
-      borderRadius: '50',
-      barPercentage: 0.7,
-    },
-    {
-      label: 'Oct',
-      data: [1000, 315, 465, 238, 245, 782,563],
-      backgroundColor: ['#3BD0FF'],
-      borderRadius: '50',
-      barPercentage: 0.7,
+  let labels = ["Bills", "Food", "Clothes", "Transport", "Fun", "Other"];
+  let first = [];
+  let second = [];
+
+  labels.forEach((e) => {
+      if ([e] in content.first.category) {
+        first.push(content.first.category[e]);
+      } else {
+        first.push(0);
+      }
+  });
+
+  labels.forEach((e) => {
+    if ([e] in content.second.category) {
+      second.push(content.second.category[e]);
+    } else {
+      second.push(0);
     }
-  ],
-};
+});
 
-export function Chart() {
+  const data = {
+    labels: ["Expenses", "Bills", "Food", "Clothes", "Transport", "Fun", "Other"],
+    datasets: [
+      {
+        label: getShortMonth(new Date(content.second.year, content.second.month - 1)),
+        data: [content.first.expenses, ...second],
+        backgroundColor: "#214FF1",
+        borderRadius: "50",
+        barPercentage: 0.7,
+      },
+      {
+        label: getShortMonth(new Date(content.first.year, content.first.month - 1)),
+        data: [content.second.expenses, ...first],
+        backgroundColor: ["#3BD0FF"],
+        borderRadius: "50",
+        barPercentage: 0.7,
+      },
+    ],
+  };
+
   return <Bar options={options} data={data} />;
 }
