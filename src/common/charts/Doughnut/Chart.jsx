@@ -14,22 +14,22 @@ const options = {
   },
 };
 
-export function Chart({ percentage }) {
-  const data = {
-    labels: ["Spent", "Left"],
-    datasets: [
-      {
-        label: "",
-        data: [percentage, percentage > 100 ? 0 : 100 - percentage],
-        backgroundColor: ["#214FF1", "#F8F8F8"],
-        rotation: 270,
-        circumference: 180,
-        animation: {
-          animateRotate: true,
-        },
+export const data = {
+  labels: ["Red", "Blue"],
+  datasets: [
+    {
+      label: "# of Votes",
+      data: [5, 5],
+      backgroundColor: ["#214FF1", "#F8F8F8"],
+      rotation: 270,
+      circumference: 180,
+      animation: {
+        animateRotate: true,
       },
-    ],
-  };
+    },
+  ],
+};
 
+export function Chart() {
   return <Doughnut options={options} data={data} />;
 }

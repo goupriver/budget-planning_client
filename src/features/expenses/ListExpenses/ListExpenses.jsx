@@ -16,16 +16,15 @@ export const ListExpenses = () => {
   const expenses = useSelector(selectAllExpenses);
   const currency = useSelector(selectCurrency);
   const status = useSelector(selectStatusExpenses);
-  
+
   let content;
 
   if (status === "loading") {
     content = <div>LOADING...</div>;
   } else if (status === "succeeded") {
     const listOfDates = Object.keys(expenses);
-    const sortedList = listOfDates.sort((a, b) => b.localeCompare(a))
 
-    content = sortedList.map((date) => {
+    content = listOfDates.map((date) => {
       return (
         <div className="one-day-expenses" key={date}>
           <div className="day-of-the-week">

@@ -20,15 +20,14 @@ ChartJS.register(
   Legend
 );
 
-export const Chart = ({dates, amount, firstInterval, lastInterval}) => {
+export const Chart = () => {
   const options = {
     scales: {
       x: {
-        min: firstInterval, 
-        max: lastInterval, 
+        // min: 2, //отображать данные от 5 по оси Х
+        // max: 12, //отображать данные до 9, ось Х
         grid: {
-          color
-          : "transparent",
+          color: "transparent",
           borderColor: "transparent",
           tickColor: "transparent",
         },
@@ -50,11 +49,11 @@ export const Chart = ({dates, amount, firstInterval, lastInterval}) => {
   };
 
   const data = {
-    labels: dates,
+    labels: [1,2,3,4,5,6,7,8,9,10,11],
     datasets: [
       {
         label: "",
-        data: amount,
+        data: [457,234,5668,767,24346,235,23,653,467,32,154],
         backgroundColor: ["#214FF1"],
         borderColor: "#9BA5F8",
         // borderWidth: 3,

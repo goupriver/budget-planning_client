@@ -1,44 +1,30 @@
 import { Close, Button } from "common/buttons";
 import { RangeSlider, Select } from "common/forms";
-import { fetchExpenses, filterExpenses, selectAllExpenses, selectStatusExpenses } from "features/expenses/expensesSlice";
-import { useEffect, useLayoutEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import styles from "./Filter.module.css";
 
 export const Filter = () => {
-  const expenses = useSelector(selectAllExpenses)
-  const status = useSelector(selectStatusExpenses)
-
-  const expRes = status === 'succeeded' ? Object.values(expenses).flat() : 0
-  const expensesSum = !!expRes && expRes.reduce((acc ,element) => acc + element.amount, 0)
-
-  const [[min, max], setRangeData] = useState([0, expensesSum]);
-
-  const dispatch = useDispatch();
-  const navigate = useNavigate();
-
+  const navigate = useNavigate()
   const {
     register,
     handleSubmit,
+    reset,
     formState: { errors },
   } = useForm({
-    mode: "onSubmit",
+    mode: "onFocus", // ошибки проверяются после потери фокуса
   });
 
   const onSubmit = (data) => {
-    dispatch(filterExpenses({ ...data, amount: { min, max } }));
-    navigate("/stats/log", { replace: true });
+    console.log("onSubmit >>> ", data);
+    console.log({ ...data, date: JSON.stringify(new Date()) });
+    // reset(); // -очистка всех полей формы
+    // navigate("/", { replace: true });
   };
 
   const onCloseClick = () => {
     navigate(-1);
   };
-
-  // const onResetStoreClick = () => {
-  //   dispatch(fetchExpenses())
-  // }
 
   return (
     <div className={styles.wrapper}>
@@ -48,7 +34,7 @@ export const Filter = () => {
       </header>
       <form onSubmit={handleSubmit(onSubmit)}>
         <Select
-          name="category"
+          name="amount"
           type="checkbox"
           register={register}
           errors={errors}
@@ -58,10 +44,10 @@ export const Filter = () => {
         />
         <div className={styles.range}>
           <span>Amount</span>
-          <RangeSlider expensesSum={expensesSum} setRangeData={setRangeData} />
+          <RangeSlider />
         </div>
         <div className={styles.buttons}>
-          <Button  variant="primary_heavenly">Reset</Button>
+          <Button variant="primary_heavenly">Reset</Button>
           <Button variant="primary_blue">Apply</Button>
         </div>
       </form>

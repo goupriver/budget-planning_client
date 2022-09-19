@@ -1,40 +1,29 @@
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
-import { useDispatch } from "react-redux";
 
 import { Button, Close } from "common/buttons";
 import { TextFieldXL } from "common/forms";
 import { MonthAndYear } from "common/text";
 import styles from "./EditBudget.module.css";
-import {
-  editCurrentMonth,
-  fetchCurrentMonth,
-} from "features/budget/budgetSlices";
 
 export const EditBudget = () => {
   const navigate = useNavigate();
-  const dispatch = useDispatch();
-
   const {
     register,
     handleSubmit,
+    reset,
     formState: { errors },
   } = useForm({
-    mode: "onSubmit",
+    mode: "onFocus", // ошибки проверяются после потери фокуса
   });
 
-  const onCloseClick = (e) => {
-    e.preventDefault();
+  const onCloseClick = () => {
     navigate("/", { replace: true });
   };
 
-  const onSubmit = async (data) => {
-    await dispatch(
-      editCurrentMonth({ budget: Number(data.budget), date: new Date() })
-    );
-    
-    dispatch(fetchCurrentMonth(new Date()));
-
+  const onSubmit = (data) => {
+    console.log("onSubmit >>> ", data);
+    // reset(); // -очистка всех полей формы
     navigate("/", { replace: true });
   };
 
@@ -48,13 +37,11 @@ export const EditBudget = () => {
         <div className={styles.edit}>
           <h3>Budget</h3>
           <TextFieldXL
-            name="budget"
+            name="number"
             type="number"
             errors={errors}
             options={{
               required: { value: true, message: "enter your budget" },
-              min: {value: 1, message: "enter a value greater than 0"},
-              max: {value: 999999999, message: "enter a value less than a billion"}
             }}
             register={register}
           />

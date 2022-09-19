@@ -1,35 +1,39 @@
-import React from "react";
+import React from 'react';
 import {
   Chart as ChartJS,
   CategoryScale,
   LinearScale,
   BarElement,
-} from "chart.js";
-import { Bar } from "react-chartjs-2";
+} from 'chart.js';
+import { Bar } from 'react-chartjs-2';
 
-ChartJS.register(CategoryScale, LinearScale, BarElement);
+ChartJS.register(
+  CategoryScale,
+  LinearScale,
+  BarElement,
+);
 
 export const options = {
   responsive: true,
-  indexAxis: "x",
+  indexAxis: 'x',
   scales: {
     x: {
       display: true,
       ticks: {
         minRotation: 90,
         mirror: false,
-        color: "#000",
+        color: '#000',
       },
       grid: {
-        borderColor: "transparent",
+        borderColor: 'transparent',
         drawOnChartArea: false,
         drawTicks: true,
-        tickColor: "transparent",
-      },
+        tickColor: 'transparent'
+      }
     },
     y: {
-      display: false,
-    },
+      display: false
+    }
   },
   plugins: {
     legend: {
@@ -41,37 +45,19 @@ export const options = {
   },
 };
 
-export function Chart({ expenses }) {
-  const arrFlat =
-    Object.values(expenses).length && Object.values(expenses).flat();
+export const data = {
+  labels: ['Totals', 'Bills', 'Food', 'Clothes', 'Transport', 'Fun', 'Other'],
+  datasets: [
+    {
+      label: 'Sept',
+      data: [887, 346,233,234,798,238,764,134],
+      backgroundColor: '#214FF1',
+      borderRadius: '50',
+      barPercentage: 0.4,
+    },
+  ],
+};
 
-  const expensesSum = arrFlat.reduce((acc, cur) => acc + cur.amount, 0);
-
-  let obj = {};
-
-  arrFlat.forEach((e) => {
-    if (e.category in obj) {
-      obj[e.category] += e.amount;
-    } else {
-      obj[e.category] = e.amount;
-    }
-  });
-
-  let category = ["Expenses", ...Object.keys(obj)];
-  let amount = [expensesSum, ...Object.values(obj)];
-
-  const data = {
-    labels: category,
-    datasets: [
-      {
-        label: "Sept",
-        data: amount,
-        backgroundColor: "#214FF1",
-        borderRadius: "50",
-        barPercentage: 0.4,
-      },
-    ],
-  };
-
+export function Chart() {
   return <Bar options={options} data={data} />;
 }

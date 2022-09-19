@@ -9,7 +9,6 @@ import {
   Legend,
 } from "chart.js";
 import { Bar } from "react-chartjs-2";
-import { getMonth } from "services/dates/format.helpers";
 
 ChartJS.register(
   CategoryScale,
@@ -53,29 +52,26 @@ export const options = {
   },
 };
 
+export const data = {
+  labels: ["Totals"],
+  datasets: [
+    {
+      label: "Sept",
+      data: [887],
+      backgroundColor: "#214FF1",
+      borderRadius: "50",
+      barPercentage: 0.6,
+    },
+    {
+      label: "Oct",
+      data: [1000],
+      backgroundColor: ["#3BD0FF"],
+      borderRadius: "50",
+      barPercentage: 0.6,
+    },
+  ],
+};
 
-export function Chart({content, type}) {
-
-  const data = {
-    labels: [""],
-    datasets: [
-      {
-        label: getMonth(new Date(content.first.year, content.first.month - 1)),
-        data: [content.second[type]],
-        backgroundColor: ["#3BD0FF"],
-        borderRadius: "50",
-        barPercentage: 0.6,
-      },
-      {
-        label: getMonth(new Date(content.second.year, content.second.month - 1)),
-        data: [content.first[type]],
-        backgroundColor: "#214FF1",
-        borderRadius: "50",
-        barPercentage: 0.6,
-      }
-    ],
-  };
-  
-
+export function Chart() {
   return <Bar options={options} data={data} />;
 }

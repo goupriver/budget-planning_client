@@ -2,15 +2,11 @@ import { ListExpenses } from "features/expenses/ListExpenses/ListExpenses";
 import { MonthAndYear } from "common/text";
 import { useNavigate } from "react-router-dom";
 import styles from "./ExpensesLog.module.css";
-import { useDispatch } from "react-redux";
-import { fetchExpenses } from "features/expenses/expensesSlice";
 
 export const ExpensesLog = () => {
   const navigate = useNavigate()
-  const dispatch = useDispatch()
-
-const onCallFilterClcik = async () => {
-  await dispatch(fetchExpenses())
+  
+const onCallFilterClcik = () => {
   navigate('/stats/filter')
 }
 
