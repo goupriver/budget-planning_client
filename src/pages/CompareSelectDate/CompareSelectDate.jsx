@@ -1,6 +1,6 @@
 import { Button } from "common/buttons";
-import { DatePicker as DatePickerLib } from "common/forms";
 import { useNavigate } from "react-router-dom";
+import { SelectDate } from "./common/DatePicker/SelectDate";
 import styles from "./CompareSelectDate.module.css";
 
 export const CompareSelectDate = () => {
@@ -13,7 +13,7 @@ export const CompareSelectDate = () => {
   return (
     <div className={styles.wrapper}>
       <div className={styles.edit}>
-        <DatePickerLib mode="range" />
+      <SelectDate />
       </div>
       <Button onClick={onComparePageClick} variant="primary_blue">
         Compare

@@ -11,6 +11,13 @@
   background-color: var(--blue);
 }
 
+.wa {
+  margin-top: 24vh;
+  margin-bottom: 8vh;
+  padding: 1rem 1.5rem;
+  width: auto;
+}
+
 .primary_heavenly {
   padding: 1rem 0;
   font-size: 1.12rem;

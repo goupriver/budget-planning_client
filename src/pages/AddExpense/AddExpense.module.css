@@ -7,6 +7,17 @@
   margin-right: -1.25rem;
 }
 
+.date {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 1.25rem;
+  color: var(--blue);
+  margin-top: 2.1rem;
+  padding-bottom: 1.8rem;
+}
+
 .wrapper + main {
   margin-bottom: 2rem;
 }

@@ -2,7 +2,7 @@ import { ChartWrapper, Horizontal, Vertical } from "common/charts";
 import { Icon } from "common/media";
 import { TitleChart } from "common/text";
 import { useNavigate } from "react-router-dom";
-import { getMonth, getYear } from "services/dates/format.helpers";
+import { getMonth, getYear } from "services/dates/format.helpers.ts";
 import styles from "./Compare.module.css";
 
 export const Compare = () => {
