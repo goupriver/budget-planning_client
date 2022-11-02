@@ -2,7 +2,7 @@ import "swiper/css";
 import "swiper/css/navigation";
 import { OneMonthSlide } from "./OneMonthSlide/OneMonthSlide";
 import { Swiper, SwiperSlide } from "swiper/react";
-import { Keyboard, Navigation, Pagination } from "swiper";
+import { Keyboard, Navigation } from "swiper";
 import { useSelector } from "react-redux";
 import { activity, nextMonthCurrent, previousMonthCurrent } from "features/activity/activitySlice";
 import { useDispatch } from "react-redux";
@@ -30,7 +30,7 @@ export const Slider = () => {
       clickable: true,
       dynamicBullets: true
     },
-    modules: [Pagination, Navigation, Keyboard],
+    modules: [Navigation, Keyboard],
     onSlideNextTransitionEnd: e => {
       dispatch(nextMonthCurrent(e.activeIndex))
       const {month, year} = activityList[e.activeIndex]

@@ -1,34 +1,55 @@
 import styles from "./Register.module.css";
+import './active.css'
 
 import { useForm } from "react-hook-form";
 
 import { TextField } from "common/forms";
 import { Button } from "common/buttons";
+import { createUserEmail } from "services/firebase/auth/auth";
+import { useState } from "react";
+import { Link, NavLink, useNavigate } from "react-router-dom";
 
 export const Register = () => {
   const {
     register,
     handleSubmit,
-    reset,
     formState: { errors },
   } = useForm({
-    mode: "onFocus", // ошибки проверяются после потери фокуса
+    mode: "onFocus",
   });
 
-  const onSubmit = (data) => {
-    console.log("onSubmit >>> ", data);
-    // reset(); // -очистка всех полей формы
+  const [userNot, setUserNot] = useState(false);
+  const navigate = useNavigate();
+  const onSubmit = async (data) => {
+    setUserNot(false);
+    const req = await createUserEmail(data.email, data.password);
+    if (req === "auth/email-already-in-use") {
+      setUserNot({ field: "email", message: "this email is already in use" });
+      return 
+    }
+    navigate("/");
   };
+
   return (
     <div className={styles.wrapper}>
       <div className={styles.selector}>
-        <a href="#">Log In</a>
-        <a href="#">Register</a>
+        {/* <Link to="/login">Log In</Link>
+        <Link to="/register">Register</Link> */}
+        <NavLink
+          to="/login"
+          className={({ isActive }) => (isActive ? "active" : null)}
+        >Log In</NavLink>
+         <NavLink
+          to="/register"
+          className={({ isActive }) => (isActive ? "active" : null)}
+        >Register</NavLink>
+        
       </div>
       <form className={styles.form} onSubmit={handleSubmit(onSubmit)}>
         <label htmlFor="email">
           <h4>E-mail</h4>
           <TextField
+            userNot={userNot}
             type="email"
             name="email"
             register={register}
@@ -42,6 +63,7 @@ export const Register = () => {
         <label htmlFor="password">
           <h4>Password</h4>
           <TextField
+            userNot={userNot}
             name="password"
             type="password"
             errors={errors}
@@ -52,8 +74,10 @@ export const Register = () => {
             register={register}
           ></TextField>
         </label>
+        <div className={styles.but}><Button variant="primary_blue" type="submit">
+          Register
+        </Button></div>
       </form>
-      <Button variant="primary_blue">Register</Button>
     </div>
   );
 };

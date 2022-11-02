@@ -7,24 +7,21 @@ import {
   AddExpense,
   Compare,
   CompareSelectDate,
-  DatePicker,
   EditBudget,
   Filter,
+  ForgotPass,
   Home,
+  LogIn,
+  NotFound,
+  Register,
   Settings,
   Stats,
 } from "pages";
 import { General } from "pages/Stats/General/General";
 import { ExpensesLog } from "pages/Stats/ExpensesLog/ExpensesLog";
-import { fetchUser } from "features/user/userSlice";
-import { budgetFetch } from "features/budget/budgetSlice";
-import { useDispatch } from "react-redux";
-import { useEffect } from "react";
-import { fetchExpenses, status } from "features/expenses/expensesSlice";
 import { FetchData } from "./FetchData/FetchData";
-import { Skeleton } from "pages/Home/common/Skeleton/Skeleton";
-import { useSelector } from "react-redux";
 import { SetBudget } from "pages/SetBudget/SetBudget";
+import { Welcome } from "pages/Welcome/Welcome";
 
 const App = () => {
   return (
@@ -36,23 +33,22 @@ const App = () => {
           <Route index element={<Home />} />
           <Route path="editbudget" element={<EditBudget />} />
           <Route path="setbudget" element={<SetBudget />} />
-          <Route path="stats" element={<Stats />} />
           <Route path="addexpense" element={<AddExpense />} />
-          <Route path="compare" element={<CompareSelectDate />} />
-        </Route>
-
-        {/* <Route path="stats" element={<Stats />}>
+          <Route path="item/:expenseId" element={<AboutUnit />} />
+          <Route path="stats" element={<Stats />}>
             <Route index element={<General />} />
-            <Route path="general" element={<General />} />
             <Route path="log" element={<ExpensesLog />} />
-          </Route> */}
-        {/* <Route path="settings" element={<Settings />} /> */}
-        {/* </Route> */}
-        {/* <Route path="item/:expenseId" element={<AboutUnit />} />
-        <Route path="stats/compare/" element={<CompareSelectDate />} />
-        <Route path="stats/compare/result" element={<Compare />} />
-        <Route path="stats/calendar" element={<DatePicker />} />
-        <Route path="stats/filter" element={<Filter />} />  */}
+          </Route>
+          <Route path="filter" element={<Filter />} />
+          <Route path="compare" element={<CompareSelectDate />} />
+          <Route path="/compare/result" element={<Compare />} />
+          <Route path="settings" element={<Settings />} />
+        </Route>
+        <Route path="/welcome" element={<Welcome />} />
+        <Route path="/login" element={<LogIn />} />
+        <Route path="/register" element={<Register />} />
+        <Route path="/resetpass" element={<ForgotPass />} />
+        <Route path="*" element={<NotFound />} />
       </Routes>
     </>
   );

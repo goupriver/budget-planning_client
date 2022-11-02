@@ -7,26 +7,31 @@ import {
   Box,
   RangeSliderMark,
 } from "@chakra-ui/react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import { style } from "./RangeSlider.styles";
 
-export const RangeSlider = () => {
-  const [[first, second], setSliderValue] = useState([50, 80]);
+export const RangeSlider = ({dataRange, setRange}) => {
+  const {min, max, minRange, maxRange} = dataRange
+  const [[first, second], setSliderValue] = useState([minRange, maxRange]);
+
+  useEffect(() => {
+    setRange([first, second])
+  }, [first, second ])
 
   return (
     <ChakraProvider>
       <Slider
-        defaultValue={[50, 80]}
-        min={0}
-        max={300}
+        defaultValue={[first, second || 1]}
+        min={min}
+        max={max || 1}
         onChange={(val) => setSliderValue(val)}
       >
         <RangeSliderMark value={first} {...style.rangeSliderMark}>
           {first}
         </RangeSliderMark>
-        <RangeSliderMark value={second} {...style.rangeSliderMark}>
-          {second}
+        <RangeSliderMark value={second || 1} {...style.rangeSliderMark}>
+          {second || 1}
         </RangeSliderMark>
         <RangeSliderTrack {...style.rangeSliderTrack}>
           <RangeSliderFilledTrack {...style.rangeSliderFilledTrack} />

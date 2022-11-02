@@ -13,13 +13,15 @@ const options = {
   },
 };
 
-export function Chart({budgetCurrent, total}) {
+export function Chart({budgetCurrent, totalAmount}) {
+  const result = totalAmount > budgetCurrent ? [100, 0] : [(totalAmount * 100) / budgetCurrent, 100 - (totalAmount * 100) / budgetCurrent] 
+  
   const data = {
     labels: ["Expenses", "Left"],
     datasets: [
       {
         label: "",
-        data: [total, budgetCurrent],
+        data: result,
         backgroundColor: ["#214FF1", "#F8F8F8"],
         rotation: 270,
         circumference: 180,

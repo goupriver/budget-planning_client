@@ -14,7 +14,9 @@ export const FetchData = () => {
       console.time('er')
       const currentDate = getCurrentDate()
       
-      const { payload: { userId } } = await dispatch(fetchUser('e98nvt3894'))
+      // const { payload: { userId } } = await dispatch(fetchUser('e98nvt3894'))
+      const { payload: { userId } } = await dispatch(fetchUser('gg98ab9v'))
+
 
       const { payload: activityList } = await dispatch(activityFetch({userId, date: currentDate}))
 
@@ -29,7 +31,7 @@ export const FetchData = () => {
 
     response()
     const create = async () => {
-      dispatch(initUser({ uid: 'e98nvt3894', email: 'reyneke1703@gmail.com' }))
+      dispatch(initUser({ uid: 'gg98ab9v', email: 'rainyburg@gmail.com' }))
     }
     // create()
   }, [])

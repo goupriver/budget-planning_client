@@ -1,56 +1,81 @@
 import { Close, Button } from "common/buttons";
 import { RangeSlider, Select } from "common/forms";
+import { expenses, status } from "features/expenses/expensesSlice";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
-import { useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { useLocation, useNavigate, useSearchParams } from "react-router-dom";
 import styles from "./Filter.module.css";
+import { getCenterData } from "./utils/getCenterData";
 
 export const Filter = () => {
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const {
     register,
     handleSubmit,
-    reset,
+    resetField,
     formState: { errors },
   } = useForm({
     mode: "onFocus", // ошибки проверяются после потери фокуса
   });
+  let [searchParams, setSearchParams] = useSearchParams();
+
+
+
+  const [range, setRange] = useState([])
+  const expensesStatus = useSelector(status);
+  const listExpenses = useSelector(expenses);
+  const dataRange = getCenterData(listExpenses);
 
   const onSubmit = (data) => {
-    console.log("onSubmit >>> ", data);
-    console.log({ ...data, date: JSON.stringify(new Date()) });
-    // reset(); // -очистка всех полей формы
-    // navigate("/", { replace: true });
+    const url = '/stats/log'
+    const filter = JSON.stringify({...data, range})
+    navigate(`${url}?filter=${filter}`);
   };
+
+  const onReset = () => navigate('/stats/log');
 
   const onCloseClick = () => {
     navigate(-1);
   };
 
-  return (
-    <div className={styles.wrapper}>
-      <header>
-        <span>Filter by</span>
-        <Close onClick={onCloseClick} variant="black" />
-      </header>
-      <form onSubmit={handleSubmit(onSubmit)}>
-        <Select
-          name="amount"
-          type="checkbox"
-          register={register}
-          errors={errors}
-          options={{
-            required: { value: true, message: "select category" },
-          }}
-        />
-        <div className={styles.range}>
-          <span>Amount</span>
-          <RangeSlider />
-        </div>
-        <div className={styles.buttons}>
-          <Button variant="primary_heavenly">Reset</Button>
-          <Button variant="primary_blue">Apply</Button>
-        </div>
-      </form>
-    </div>
-  );
+  let content;
+
+  if (expensesStatus === "succeeded") {
+    content = (
+      <>
+        <header>
+          <span>Filter by</span>
+          <Close onClick={onCloseClick} variant="black" />
+        </header>
+        <form onSubmit={handleSubmit(onSubmit)}>
+          <Select
+            name="category"
+            type="checkbox"
+            register={register}
+            errors={errors}
+            options={{
+              required: { value: true, message: "select category" },
+            }}
+          />
+          <div className={styles.range}>
+            <span>Amount</span>
+            <RangeSlider dataRange={dataRange} setRange={setRange}/>
+          </div>
+          <div className={styles.buttons}>
+            <Button variant="primary_heavenly" onClick={onReset} type="button">
+              Reset
+            </Button>
+            <Button variant="primary_blue" type="submit">
+              Apply
+            </Button>
+          </div>
+        </form>
+      </>
+    );
+  } else {
+    content = <div>loading...</div>;
+  }
+
+  return <div className={styles.wrapper}>{content}</div>;
 };

@@ -1,6 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { createUser, getUser } from "services/firebase/ferestore/firestore";
-import { Email, Error, IUser, Status, UID } from "types/types";
+import { changeCurrency, createUser, getUser } from "services/firebase/ferestore/firestore";
+import { Currency, Email, Error, IUser, Status, UID, UserID } from "types/types";
 
 interface IState {
   user: IUser;
@@ -32,6 +32,16 @@ export const fetchUser = createAsyncThunk('user/fetchUser', async (uid: UID, { r
   }
 })
 
+export const currencyChange = createAsyncThunk('user/currency', async ({userId, currency}: {userId: UserID; currency: Currency}, { rejectWithValue }) => {
+  try {
+    const data = await changeCurrency(userId, currency)
+    return data
+  } catch (err) {
+    return rejectWithValue(err)
+  }
+})
+
+
 export const userSlice = createSlice({
   name: 'users',
   initialState,
@@ -59,6 +69,18 @@ export const userSlice = createSlice({
         state.status = 'succeeded'
       })
       .addCase(fetchUser.rejected, (state, action) => {
+        state.error = action.payload as null
+        state.status = 'failed'
+      })
+      .addCase(currencyChange.pending, (state) => {
+        state.error = null;
+        state.status = 'loading';
+      })
+      .addCase(currencyChange.fulfilled, (state, action) => {
+        state.user.currency = action.payload
+        state.status = 'succeeded'
+      })
+      .addCase(currencyChange.rejected, (state, action) => {
         state.error = action.payload as null
         state.status = 'failed'
       })

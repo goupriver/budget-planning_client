@@ -14,24 +14,24 @@ const options = {
   },
 };
 
-export const data = {
-  labels: ["Red", "Blue"],
-  datasets: [
-    {
-      label: "# of Votes",
-      data: [1.5, 10],
-      backgroundColor: ["#214FF1", "#F8F8F8"],
-      borderColor: ["#214FF1", "#214FF1"],
-      borderWidth: 2,
-      rotation: 0,
-      circumference: 360,
-      animation: {
-        animateRotate: true,
-      },
-    },
-  ],
-};
+export function Chart({result}) {
 
-export function Chart() {
+ const data = {
+    labels: ["Amount", "Budget"],
+    datasets: [
+      {
+        data: result,
+        backgroundColor: ["#214FF1", "#F8F8F8"],
+        borderColor: ["#214FF1", "#214FF1"],
+        borderWidth: 2,
+        rotation: 0,
+        circumference: 360,
+        animation: {
+          animateRotate: true,
+        },
+      },
+    ],
+  };
+
   return <Doughnut options={options} data={data} />;
 }

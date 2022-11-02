@@ -15,7 +15,8 @@ export function getIconByCategoryName(category) {
     chevronLeft: "chevron_left",
     calendar: "calendar_month",
     balance: "balance",
-    error: "error"
+    error: "error",
+    done: "done",
   };
 
   return list[category];

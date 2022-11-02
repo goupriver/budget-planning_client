@@ -8,6 +8,7 @@ export type Category = 'Bills' | 'Food' | 'Clothes' | 'Transport' | 'Fun' | 'Oth
 export type Status = 'idle' | 'loading' | 'succeeded' | 'failed'
 export type Error = string | null
 export type Currency = 'USD' | 'RUB' | 'EUR' | ""
+export type listDatesCompare = [{from: Date, to: Date}, {from: Date, to: Date}]
 
 export interface INewExpense {
   amount: number;

@@ -1,18 +1,46 @@
-import { addDoc, collection, doc, getDocs, query, updateDoc, where } from "firebase/firestore";
-import { getCurrentDate, getDateEndtOfMonth, getDateStartOfMonth, getMonth, getYear } from "services/dates/format.helpers";
-import { db } from "../config";
-import { UID, Email, UserID, Budget, IExpense, IUser, Currency, IActivity, INewExpense } from "types/types";
+import {
+  addDoc,
+  collection,
+  doc,
+  getDocs,
+  getFirestore,
+  query,
+  updateDoc,
+  where,
+} from "firebase/firestore";
+import {
+  getCurrentDate,
+  getDateEndtOfMonth,
+  getDateStartOfMonth,
+  getMonth,
+  getYear,
+} from "services/dates/format.helpers";
+import { app } from "services/firebase/config";
+import {
+  UID,
+  Email,
+  UserID,
+  Budget,
+  IExpense,
+  IUser,
+  Currency,
+  IActivity,
+  INewExpense,
+  listDatesCompare,
+} from "types/types";
+
+const db = getFirestore(app);
 
 // USER //
 
-export async function createUser({ uid, email }: { uid: UID, email: Email }) {
+export async function createUser({ uid, email }: { uid: UID; email: Email }) {
   console.log(uid, email);
 
-  const userRef = collection(db, "users")
-  const userResponse = await addDoc(userRef, { email, uid, currency: 'USD' });
-  const userId: UserID = userResponse.id
+  const userRef = collection(db, "users");
+  const userResponse = await addDoc(userRef, { email, uid, currency: "USD" });
+  const userId: UserID = userResponse.id;
 
-  return { userId, email, currency: 'USD' as Currency }
+  return { userId, email, currency: "USD" as Currency };
 }
 
 export async function getUser(uid: UID) {
@@ -22,97 +50,166 @@ export async function getUser(uid: UID) {
   let user!: IUser;
 
   querySnapshot.forEach((doc) => {
-    user = { userId: doc.id, email: doc.data().email, currency: doc.data().currency }
+    user = {
+      userId: doc.id,
+      email: doc.data().email,
+      currency: doc.data().currency,
+    };
   });
 
-  return user
+  return user;
+}
+
+export async function changeCurrency(userId: UserID, currency: Currency) {
+  
+  const docRef = doc(db, `users/${userId}`);
+  
+  await updateDoc(docRef, {
+    currency: currency,
+  })
+  
+  return currency
 }
 
 // ACTIVITY //
 
 export async function initialActivity(userId: UserID) {
-  const date = getCurrentDate()
-  const month = getMonth(date)
-  const year = getYear(date)
+  const date = getCurrentDate();
+  const month = getMonth(date);
+  const year = getYear(date);
 
-  const activityRef = collection(db, `users/${userId}/activity/`)
+  const activityRef = collection(db, `users/${userId}/activity/`);
   await addDoc(activityRef, { month, year });
 
-  return { month, year, current: true }
+  return { month, year, current: true };
 }
 
 export async function getActivity(userId: UserID, date: Date) {
-  const currentMonth = getMonth(date)
-  const currentYear = getYear(date)
+  const currentMonth = getMonth(date);
+  const currentYear = getYear(date);
 
   const q = query(collection(db, `users/${userId}/activity`));
   const querySnapshot = await getDocs(q);
 
-  let activity: IActivity[] = []
+  let activity: IActivity[] = [];
 
   querySnapshot.forEach((doc) => {
-    const month = doc.data().month
-    const year = doc.data().year
+    const month = doc.data().month;
+    const year = doc.data().year;
 
-    const current = currentMonth === month && currentYear === year
+    const current = currentMonth === month && currentYear === year;
 
-    activity.push({ month, year, current })
+    activity.push({ month, year, current });
   });
 
-  const sortedData = activity.sort((a, b) => (a.month + a.year) - (b.month + b.year))
+  const sortedData = activity.sort(
+    (a, b) => a.month + a.year - (b.month + b.year)
+  );
 
-  return sortedData
+  return sortedData;
 }
 
 // BUDGET //
 
 export async function createBudget(userId: UserID, date: Date, budget: Budget) {
-  const month = getMonth(date)
-  const year = getYear(date)
+  const month = getMonth(date);
+  const year = getYear(date);
 
-  const activityRef = collection(db, `users/${userId}/budget/`)
+  const activityRef = collection(db, `users/${userId}/budget/`);
 
   await addDoc(activityRef, { month, year, budget });
 
-  return { month, year, budget }
+  return { month, year, budget };
 }
 
-
 export async function getBudget(userId: UserID, date: Date) {
-  const month = getMonth(date)
-  const year = getYear(date)
+  const month = getMonth(date);
+  const year = getYear(date);
 
-  let data = {}
+  let data = {};
 
-  const q = query(collection(db, `users/${userId}/budget`), where("month", "==", month), where("year", "==", year));
+  const q = query(
+    collection(db, `users/${userId}/budget`),
+    where("month", "==", month),
+    where("year", "==", year)
+  );
   const querySnapshot = await getDocs(q);
-  !querySnapshot.empty && querySnapshot.forEach((doc) => {
-    data = doc.data()
+  !querySnapshot.empty &&
+    querySnapshot.forEach((doc) => {
+      data = doc.data();
+    });
+
+  return data;
+}
+
+export async function compareBudget(
+  userId: UserID,
+  date: { a: Date; b: Date }
+) {
+
+  const month1 = getMonth(date.a);
+  const year1 = getYear(date.a);
+
+  const month2 = getMonth(date.b);
+  const year2 = getYear(date.b);
+
+  let data = {
+    a: {},
+    b: {},
+    date: {
+      a: { month: month1, year: year1 },
+      b: { month: month2, year: year2 },
+    },
+  };
+
+  const q1 = query(
+    collection(db, `users/${userId}/budget`),
+    where("month", "==", month1),
+    where("year", "==", year1)
+  );
+  const q2 = query(
+    collection(db, `users/${userId}/budget`),
+    where("month", "==", month2),
+    where("year", "==", year2)
+  );
+
+  const querySnapshot1 = await getDocs(q1);
+  const querySnapshot2 = await getDocs(q2);
+
+  querySnapshot1.forEach((doc) => {
+    data.a = doc.data();
   });
 
-  return data
+  querySnapshot2.forEach((doc) => {
+    data.b = doc.data();
+  });
+
+  return data;
 }
 
 export async function updateBudget(userId: UserID, date: Date, budget: Budget) {
-  const month = getMonth(date)
-  const year = getYear(date)
-  console.log();
-  
-  const q = query(collection(db, `users/${userId}/budget`), where("month", "==", month), where("year", "==", year));
+  const month = getMonth(date);
+  const year = getYear(date);
+
+  const q = query(
+    collection(db, `users/${userId}/budget`),
+    where("month", "==", month),
+    where("year", "==", year)
+  );
 
   const querySnapshot = await getDocs(q);
 
   let id;
 
   querySnapshot.forEach((doc) => {
-    id = doc.id
-  })
+    id = doc.id;
+  });
 
   const docRef = doc(db, `users/${userId}/budget/${id}`);
 
   await updateDoc(docRef, { budget });
 
-  return { budget, month, year } 
+  return { budget, month, year };
 }
 
 // EXPENSE //
@@ -126,20 +223,24 @@ export async function addExpense(userId: UserID, expense: INewExpense) {
     id: expenseResponse.id,
     ...expense,
     date: expense.date.toISOString(),
-  }
+  };
 }
 
 export async function getExpenses(userId: UserID, date: Date) {
-  const startMonth = getDateStartOfMonth(date)
-  const endMonth = getDateEndtOfMonth(date)
-  
-  const q = query(collection(db, `users/${userId}/expenses`), where("date", "<=", endMonth), where("date", ">=", startMonth));
-  let expenses: IExpense[] = []
-  
+  const startMonth = getDateStartOfMonth(date);
+  const endMonth = getDateEndtOfMonth(date);
+
+  const q = query(
+    collection(db, `users/${userId}/expenses`),
+    where("date", "<=", endMonth),
+    where("date", ">=", startMonth)
+  );
+  let expenses: IExpense[] = [];
+
   const querySnapshot = await getDocs(q);
   querySnapshot.forEach((doc) => {
-    const { amount, repeat, category, message, file, date } = doc.data()
-    const datePrepare = new Date(date.seconds * 1000).toISOString()
+    const { amount, repeat, category, message, file, date } = doc.data();
+    const datePrepare = new Date(date.seconds * 1000).toISOString();
 
     expenses.push({
       id: doc.id,
@@ -148,9 +249,48 @@ export async function getExpenses(userId: UserID, date: Date) {
       category,
       message,
       file,
-      date: datePrepare
-    })
+      date: datePrepare,
+    });
   });
 
-  return expenses
+  return expenses;
+}
+
+export async function compareExpenses(userId: UserID, date: listDatesCompare) {
+  const [a, b] = date;
+
+  const res: any = { a: [], b: [] };
+
+  const q1 = query(
+    collection(db, `users/${userId}/expenses`),
+    where("date", "<=", a.to),
+    where("date", ">=", a.from)
+  );
+
+  const q2 = query(
+    collection(db, `users/${userId}/expenses`),
+    where("date", "<=", b.to),
+    where("date", ">=", b.from)
+  );
+
+  const querySnapshot1 = await getDocs(q1);
+  const querySnapshot2 = await getDocs(q2);
+
+  querySnapshot1.forEach((doc) => {
+    res.a.push({
+      ...doc.data(),
+      id: doc.id,
+      date: new Date(doc.data().date.seconds * 1000).toISOString(),
+    });
+  });
+
+  querySnapshot2.forEach((doc) => {
+    res.b.push({
+      ...doc.data(),
+      id: doc.id,
+      date: new Date(doc.data().date.seconds * 1000).toISOString(),
+    });
+  });
+
+  return res;
 }

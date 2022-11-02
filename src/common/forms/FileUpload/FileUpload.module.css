@@ -1,6 +1,9 @@
 .fileInput input {
+  display: inline-block;
   width: 0;
   height: 0;
+  opacity: 0;
+  display: none;
 }
 
 .fileInput div {
@@ -16,4 +19,17 @@
 .fileInput span {
   font-size: 2.5rem;
   color: var(--heavenly);
+}
+
+.example {
+  object-fit: contain;
+  width: 8rem;
+  height: 5rem;
+  margin-left: 2rem;
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-xs);
+}
+
+.wrapper {
+  display: flex;
 }

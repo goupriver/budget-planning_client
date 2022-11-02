@@ -11,6 +11,7 @@ interface IPropsButton {
   onClick: any;
   variant: Variant;
   wa?: boolean;
+  widthauto?: boolean;
   type?: 'button' | 'submit'
 }
 
@@ -19,14 +20,16 @@ export const Button = ({
   onClick,
   variant,
   wa,
+  widthauto = false,
   type = "button",
 }: IPropsButton) => {
-  const width = wa ? styles.wa : null;
+  const width = wa ? styles.wa : "";
+  const autowidth = widthauto ? styles.widthauto : styles.width100
 
   return (
     <button
       type={type}
-      className={styles.btn + " " + styles[variant] + " " + width}
+      className={styles.btn + " " + styles[variant] + " " + autowidth + " " + width}
       onClick={onClick}
     >
       {children}

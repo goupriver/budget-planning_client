@@ -9,6 +9,7 @@ import {
   Legend,
 } from "chart.js";
 import { Bar } from "react-chartjs-2";
+import { getMonthStringShort } from "services/dates/format.helpers";
 
 ChartJS.register(
   CategoryScale,
@@ -21,6 +22,7 @@ ChartJS.register(
 
 export const options = {
   responsive: true,
+  borderSkipped: false,
   aspectRatio: 2.5,
   indexAxis: "y",
   scales: {
@@ -52,26 +54,29 @@ export const options = {
   },
 };
 
-export const data = {
-  labels: ["Totals"],
-  datasets: [
-    {
-      label: "Sept",
-      data: [887],
-      backgroundColor: "#214FF1",
-      borderRadius: "50",
-      barPercentage: 0.6,
-    },
-    {
-      label: "Oct",
-      data: [1000],
-      backgroundColor: ["#3BD0FF"],
-      borderRadius: "50",
-      barPercentage: 0.6,
-    },
-  ],
-};
 
-export function Chart() {
+export function Chart({budgetCompare}) {
+  const data = {
+    labels: ["Budget"],
+    datasets: [
+      {
+        label: getMonthStringShort(new Date(budgetCompare.date.a.year, budgetCompare.date.a.month)),
+        data: [budgetCompare.a.budget ? budgetCompare.a.budget : 0],
+        backgroundColor: "#214FF1",
+        borderRadius: "50",
+        categoryPercentage: 0.4,
+        barPercentage: 0.6,
+      },
+      {
+        label: getMonthStringShort(new Date(budgetCompare.date.b.year, budgetCompare.date.b.month)),
+        data: [budgetCompare.b.budget ? budgetCompare.b.budget : 0],
+        backgroundColor: ["#3BD0FF"],
+        borderRadius: "50",
+        categoryPercentage: 0.4,
+        barPercentage: 0.6,
+      },
+    ],
+  };
+
   return <Bar options={options} data={data} />;
 }

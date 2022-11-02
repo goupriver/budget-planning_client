@@ -15,7 +15,7 @@
 .selector a {
   font-size: 1.625rem;
   font-weight: 800;
-  color: var(--blue);
+  color: var(--heavenly);
   width: 40%;
 }
 
@@ -51,4 +51,8 @@
 
 .authSocial button {
   width: 50%;
+}
+
+.actve {
+  color: var(--heavenly);
 }

@@ -1,5 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import {
+  compareBudget,
   createBudget,
   getBudget,
   updateBudget,
@@ -10,10 +11,14 @@ interface IState {
   budget: IBudget | {};
   error: Error;
   status: Status;
+  budgetCompare: {a: any, b: any};
+  budgetCompareStatus: Status;
 }
 
 const initialState: IState = {
   budget: {},
+  budgetCompare: {a: {year: '', month: '', budget: ''}, b: {year: '', month: '', budget: ''}},
+  budgetCompareStatus: 'idle',
   error: null,
   status: "idle",
 };
@@ -63,6 +68,18 @@ export const budgetFetch = createAsyncThunk(
   }
 );
 
+export const budgetCompare = createAsyncThunk(
+  "budget/compare",
+  async ({userId, date}: {userId: UserID, date: {a: Date, b: Date}}, { rejectWithValue }) => {
+    try {
+      const budget = await compareBudget(userId, date);
+      return budget;
+    } catch (err) {
+      return rejectWithValue(err);
+    }
+  }
+);
+
 const budgetSlice = createSlice({
   name: "budget",
   initialState,
@@ -104,9 +121,25 @@ const budgetSlice = createSlice({
       .addCase(initBudget.rejected, (state, action) => {
         state.error = `${action.payload}`;
         state.status = "failed";
+      })
+      .addCase(budgetCompare.pending, (state) => {
+        state.error = null;
+        state.budgetCompareStatus = "loading";
+      })
+      .addCase(budgetCompare.fulfilled, (state, action) => {
+        state.budgetCompare = action.payload
+        state.budgetCompareStatus = "succeeded";
+      })
+      .addCase(budgetCompare.rejected, (state, action) => {
+        state.error = `${action.payload}`;
+        state.budgetCompareStatus = "failed";
       });
   },
 });
 
 export default budgetSlice.reducer;
 export const budgetStatus = state => state.budget.status
+export const budget = state => state.budget.budget
+
+export const budgetCompareList = state => state.budget.budgetCompare
+export const budgetCompareStatus =  state => state.budget.budgetCompareStatus

@@ -9,6 +9,7 @@ import {
   Legend,
 } from 'chart.js';
 import { Bar } from 'react-chartjs-2';
+import { getMonthStringShort } from 'services/dates/format.helpers';
 
 ChartJS.register(
   CategoryScale,
@@ -21,6 +22,7 @@ ChartJS.register(
 
 export const options = {
   responsive: true,
+  borderSkipped: false,
   indexAxis: 'x',
   scales: {
     x: {
@@ -51,29 +53,29 @@ export const options = {
   },
 };
 
-// TOTAL >>> передавать как отдельное значение это общий тотал расходов или бюджетаъ
-// labels: [total <переменная>, ...]
+export function Chart({monthA, monthB, budgetCompare}) {
 
-export const data = {
-  labels: ['Totals', 'Bills', 'Food', 'Clothes', 'Transport', 'Fun', 'Other'],
+const data = {
+  labels: ['Total', 'Bills', 'Food', 'Clothes', 'Transport', 'Fun', 'Other'],
   datasets: [
     {
-      label: 'Sept',
-      data: [887, 346,233,234,798,238,764,134],
+      categoryPercentage: 0.6,
+      barPercentage: 0.6,
+      label: getMonthStringShort(new Date(budgetCompare.date.a.year, budgetCompare.date.a.month)),
+      data: monthA[1],
       backgroundColor: '#214FF1',
       borderRadius: '50',
-      barPercentage: 0.7,
     },
     {
-      label: 'Oct',
-      data: [1000, 315, 465, 238, 245, 782,563],
+      categoryPercentage: 0.6,
+      barPercentage: 0.6,
+      label: getMonthStringShort(new Date(budgetCompare.date.b.year, budgetCompare.date.b.month)),
+      data: monthB[1],
       backgroundColor: ['#3BD0FF'],
       borderRadius: '50',
-      barPercentage: 0.7,
     }
   ],
 };
 
-export function Chart() {
   return <Bar options={options} data={data} />;
 }

@@ -5,6 +5,7 @@
   padding: 1rem;
   border-radius: var(--radius);
   border: 0.125rem solid var(--heavenly-transparent);
+  font-size: 1rem;
 }
 
 .textarea:focus {

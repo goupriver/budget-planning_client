@@ -3,24 +3,22 @@
   display: flex;
   flex-direction: column;
   justify-content: center;
-  align-items: center;
   height: 100%;
-  gap: 2rem;
+  gap: 0.5rem;
 }
 
 .year, .month {
   width: 100%;
   display: flex;
-  gap: 2rem;
-
+  gap: 0.5rem;
 }
 
 .year {
-  height: 40%;
+  height: 25%;
 }
 
 .month {
-  height: 60%;
+  height: 50%;
 }
 
 .swiper {
@@ -34,6 +32,7 @@
   background-color: rgb(255, 255, 255);
   border-radius: 0.5rem;
   box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.15);
+  padding: 0.5rem 0rem;
 }
 
 .year1, .year2 {
@@ -41,11 +40,10 @@
   width: 50%;
   background-color: rgb(255, 255, 255);
   border-radius: 0.5rem;
+  padding: 0.5rem 0rem;
 }
 
 .create {
-  color: transparent;
-  font-size: 1.2rem;
   font-weight: 700;
   display: flex;
   justify-content: center;
@@ -60,8 +58,37 @@
   user-select: none; 
 }
 
+.swiper-slide .create {
+  color: var(--heavenly-transparent);
+  font-size: 1.05rem;
+  transition: all 0.2s ease;
+}
+
 .swiper-slide.swiper-slide-active .create {
-  color: #214FF1;
+  color: var(--blue);
+  font-size: 1.3rem;
+  transition: all 0.2s ease;
+
+}
+
+.swiper-slide.swiper-slide-next > .create {
+  color: var(--heavenly);
+  font-size: 1.1rem;
+  transition: all 0.2s ease;
+
+}
+
+.swiper-slide.swiper-slide-prev > .create {
+  color: var(--heavenly);
+  font-size: 1.1rem;
+  transition: all 0.2s ease;
+
+}
+
+html,
+body {
+  position: relative;
+  height: 100%;
 }
 
 .month1 .swiper-slide.swiper-slide-active > .create::before,
@@ -70,42 +97,21 @@
   display: block;
   position: relative;
   right: 10px;
-  width: 5px;
-  height: 5px;
+  width: 8px;
+  height: 8px;
   border-radius: 50%;
+  transition: all 0.2s ease;
+
 }
 
 .month1 .swiper-slide.swiper-slide-active > .create::before {
   background: blue;
+  transition: all 0.2s ease;
+
 }
 
 .month2 .swiper-slide.swiper-slide-active > .create::before {
   background: #3bd0ff;
-}
+  transition: all 0.2s ease;
 
-.swiper-slide.swiper-slide-next > .create {
-  color: #9ba5f8 !important; 
-  font-size: 0.8rem !important;
-}
-
-.swiper-slide.swiper-slide-prev > .create {
-  color: #9ba5f8 !important; 
-  font-size: 0.8rem !important;
-  
-}
-/* 
-.swiper-slide {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-} */
-
-#root {
-  height: 100% !important;
-}
-
-html,
-body {
-  position: relative;
-  height: 100%;
 }

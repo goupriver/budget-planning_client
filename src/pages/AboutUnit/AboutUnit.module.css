@@ -1,5 +1,5 @@
 .wrapper {
-  padding: 1.5rem 0.5rem;
+  padding: 1.5rem 0.5rem 3.3rem;
 }
 
 .wrapper header {
@@ -18,8 +18,8 @@
   font-weight: 800;
 }
 
-.date span {
-  font-size: 1.25rem;
+.twoLevel {
+  font-size: 1.2rem;
   font-weight: 800;
   color: var(--blue);
 }

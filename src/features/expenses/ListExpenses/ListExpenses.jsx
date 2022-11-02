@@ -1,27 +1,30 @@
 import { Link } from "react-router-dom";
 
 import "./ListExpenses.css";
-import { dateOfMonth, dateOfWeek } from "services/dates/format.helpers.ts";
 import { Icon } from "common/media";
-import { getCurrencySymbol } from "services/currency.helpers";
 
 import { prepareListExpenses } from "./helpers/prepareListExpenses";
 import { useSelector } from "react-redux";
 import { expenses } from "../expensesSlice";
 import { getDay, getDayOfWeek } from "services/dates/format.helpers";
+import { filterListExpense } from "./helpers/filterListExpense";
+import { CurrentCurrency } from "features/user/CurrentCurrency";
 
-export const ListExpenses = () => {
-  const currency = 'USD'
-  const expensesList = useSelector(expenses)
-  const { listDates, listExpenses } = prepareListExpenses(expensesList)
-  let content;
+export const ListExpenses = ({ searchParams }) => {
+  const expensesList = useSelector(expenses);
+  const resultExpenses = searchParams
+    ? filterListExpense(expensesList, searchParams)
+    : expensesList;
+  const { listDates, listExpenses } = prepareListExpenses(resultExpenses);
   
-  content = listDates.map((date) => {
-    const [year, month, day] = date.split('-')
+  let content; 
+
+  content = listDates.reverse().map((date) => {
+    const [year, month, day] = date.split("-");
 
     return (
       <div className="one-day-expenses" key={date}>
-        <div className="day-of-the-week"> 
+        <div className="day-of-the-week">
           <h4 className="number">{getDay(new Date(year, month, day))}</h4>
           <h4 className="date">{getDayOfWeek(new Date(year, month, day))}</h4>
         </div>
@@ -34,7 +37,7 @@ export const ListExpenses = () => {
               <div className="category-and-price">
                 <h4 className="category">{category}</h4>
                 <h3 className="price">
-                  {amount} {getCurrencySymbol(currency)}
+                  {amount} <CurrentCurrency />
                 </h3>
               </div>
             </div>
