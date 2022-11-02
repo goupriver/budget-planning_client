@@ -33,8 +33,6 @@ export const Register = () => {
   return (
     <div className={styles.wrapper}>
       <div className={styles.selector}>
-        {/* <Link to="/login">Log In</Link>
-        <Link to="/register">Register</Link> */}
         <NavLink
           to="/login"
           className={({ isActive }) => (isActive ? "active" : null)}
@@ -43,7 +41,6 @@ export const Register = () => {
           to="/register"
           className={({ isActive }) => (isActive ? "active" : null)}
         >Register</NavLink>
-        
       </div>
       <form className={styles.form} onSubmit={handleSubmit(onSubmit)}>
         <label htmlFor="email">

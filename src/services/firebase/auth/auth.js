@@ -1,5 +1,6 @@
 import { createUserWithEmailAndPassword, getAuth, onAuthStateChanged, sendPasswordResetEmail, signInWithEmailAndPassword, signOut } from "firebase/auth";
 import { app } from "../config";
+import { createUser } from "../ferestore/firestore";
 
 const auth = getAuth(app);
 
@@ -8,6 +9,7 @@ export function createUserEmail(email, password) {
     .then(({ user }) => {
       // Signed in 
       const { email, uid } = user;
+      createUser({uid: String(uid), email})
       return user
       // ...
     })
