@@ -34,8 +34,6 @@ const db = getFirestore(app);
 // USER //
 
 export async function createUser({ uid, email }: { uid: UID; email: Email }) {
-  console.log(uid, email);
-
   const userRef = collection(db, "users");
   const userResponse = await addDoc(userRef, { email, uid, currency: "USD" });
   const userId: UserID = userResponse.id;
