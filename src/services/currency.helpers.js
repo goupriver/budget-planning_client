@@ -1,8 +1,8 @@
 export function getCurrencySymbol(currency) {
   const symbol = {
-    'eur': '€',
-    'rub': '₽',
-    'usd': '$'
+    'EUR': '€',
+    'RUB': '₽',
+    'USD': '$'
   }
 
   return symbol[currency]

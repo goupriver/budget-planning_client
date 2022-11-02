@@ -4,7 +4,7 @@ import { DoughnutXS } from "./DoughnutXS/DoughnutXS";
 import { String } from "./String/String";
 import { Vertical } from "./Vertical/Vertical";
 import { VerticalSingle } from "./VerticalSingle/VerticalSingle";
-import { Horizontal } from "./Horizontal/Horizontal";
+import { HorizontalBudget } from "./HorizontalBudget/HorizontalBudget";
 
 export {
   Doughnut,
@@ -13,5 +13,5 @@ export {
   String,
   Vertical,
   VerticalSingle,
-  Horizontal,
+  HorizontalBudget,
 };

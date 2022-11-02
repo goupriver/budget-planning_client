@@ -1,58 +1,51 @@
-import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 
 import "./ListExpenses.css";
-import { dateOfMonth, dateOfWeek } from "services/dates/format.helpers";
 import { Icon } from "common/media";
-import { getCurrencySymbol } from "services/currency.helpers";
 
-import {
-  selectAllExpenses,
-  selectStatusExpenses,
-} from "features/expenses/expensesSlice";
-import { selectCurrency } from "features/user/userSlice";
+import { prepareListExpenses } from "./helpers/prepareListExpenses";
+import { useSelector } from "react-redux";
+import { expenses } from "../expensesSlice";
+import { getDay, getDayOfWeek } from "services/dates/format.helpers";
+import { filterListExpense } from "./helpers/filterListExpense";
+import { CurrentCurrency } from "features/user/CurrentCurrency";
 
-export const ListExpenses = () => {
-  const expenses = useSelector(selectAllExpenses);
-  const currency = useSelector(selectCurrency);
-  const status = useSelector(selectStatusExpenses);
+export const ListExpenses = ({ searchParams }) => {
+  const expensesList = useSelector(expenses);
+  const resultExpenses = searchParams
+    ? filterListExpense(expensesList, searchParams)
+    : expensesList;
+  const { listDates, listExpenses } = prepareListExpenses(resultExpenses);
   
-  let content;
+  let content; 
 
-  if (status === "loading") {
-    content = <div>LOADING...</div>;
-  } else if (status === "succeeded") {
-    const listOfDates = Object.keys(expenses);
-    const sortedList = listOfDates.sort((a, b) => b.localeCompare(a))
+  content = listDates.reverse().map((date) => {
+    const [year, month, day] = date.split("-");
 
-    content = sortedList.map((date) => {
-      return (
-        <div className="one-day-expenses" key={date}>
-          <div className="day-of-the-week">
-            <h4 className="number">{dateOfMonth(date)}</h4>
-            <h4 className="date">{dateOfWeek(date)}</h4>
-          </div>
-          {expenses[date].map(({ category, amount, id }) => (
-            <Link to={`/item/${id}`} key={id}>
-              <div className="list">
-                <span className="category-icon material-icons">
-                  <Icon variant="category-icon">{category}</Icon>
-                </span>
-                <div className="category-and-price">
-                  <h4 className="category">{category}</h4>
-                  <h3 className="price">
-                    {amount} {getCurrencySymbol(currency)}
-                  </h3>
-                </div>
-              </div>
-            </Link>
-          ))}
+    return (
+      <div className="one-day-expenses" key={date}>
+        <div className="day-of-the-week">
+          <h4 className="number">{getDay(new Date(year, month, day))}</h4>
+          <h4 className="date">{getDayOfWeek(new Date(year, month, day))}</h4>
         </div>
-      );
-    });
-  } else if (status === "failed") {
-    <div>Ooops... Error loading</div>;
-  }
+        {listExpenses[date].map(({ category, amount, id }) => (
+          <Link to={`/item/${id}`} key={id}>
+            <div className="list">
+              <span className="category-icon material-icons">
+                <Icon variant="category-icon">{category}</Icon>
+              </span>
+              <div className="category-and-price">
+                <h4 className="category">{category}</h4>
+                <h3 className="price">
+                  {amount} <CurrentCurrency />
+                </h3>
+              </div>
+            </div>
+          </Link>
+        ))}
+      </div>
+    );
+  });
 
   return <div className="list-expenses">{content}</div>;
 };

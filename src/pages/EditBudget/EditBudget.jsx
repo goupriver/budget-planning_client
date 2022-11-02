@@ -1,48 +1,46 @@
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
-import { useDispatch } from "react-redux";
 
 import { Button, Close } from "common/buttons";
 import { TextFieldXL } from "common/forms";
 import { MonthAndYear } from "common/text";
 import styles from "./EditBudget.module.css";
-import {
-  editCurrentMonth,
-  fetchCurrentMonth,
-} from "features/budget/budgetSlices";
+import { useSelector } from "react-redux";
+import { status } from "features/expenses/expensesSlice";
+import { currentActivity } from "features/activity/activitySlice";
+import { useDispatch } from "react-redux";
+import { user } from "features/user/userSlice";
+import { editBudget } from "features/budget/budgetSlice";
 
 export const EditBudget = () => {
+  const {userId} = useSelector(user)
+  const dispatch = useDispatch()
+  const expensesStatus = useSelector(status)
+  const activity = useSelector(currentActivity)
   const navigate = useNavigate();
-  const dispatch = useDispatch();
 
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm({
-    mode: "onSubmit",
+    mode: "onFocus",
   });
 
-  const onCloseClick = (e) => {
-    e.preventDefault();
-    navigate("/", { replace: true });
+  const onCloseClick = () => {
+    navigate("/");
   };
 
-  const onSubmit = async (data) => {
-    await dispatch(
-      editCurrentMonth({ budget: Number(data.budget), date: new Date() })
-    );
-    
-    dispatch(fetchCurrentMonth(new Date()));
-
-    navigate("/", { replace: true });
+  const onSubmit = async ({budget}) => {
+    await dispatch(editBudget({userId, date: new Date(activity.year, activity.month, 1), budget: Number(budget)}))
+    navigate("/", {replace: true});
   };
 
-  return (
-    <form className={styles.wrapper} onSubmit={handleSubmit(onSubmit)}>
+  let content = expensesStatus === 'succeeded' ? (
+    <>
       <div className={styles.modal}>
         <div className={styles.top}>
-          <MonthAndYear>{new Date()}</MonthAndYear>
+          <MonthAndYear>{new Date(activity.year, activity.month, 1)}</MonthAndYear>
           <Close onClick={onCloseClick} variant="black" />
         </div>
         <div className={styles.edit}>
@@ -53,14 +51,17 @@ export const EditBudget = () => {
             errors={errors}
             options={{
               required: { value: true, message: "enter your budget" },
-              min: {value: 1, message: "enter a value greater than 0"},
-              max: {value: 999999999, message: "enter a value less than a billion"}
             }}
             register={register}
           />
         </div>
       </div>
-      <Button variant="primary_blue">Save</Button>
+      <Button type="submit" variant="primary_blue">Save</Button>
+    </>
+  ) : <div>загрузка</div>
+  return (
+    <form className={styles.wrapper} onSubmit={handleSubmit(onSubmit)}>
+      {content}
     </form>
   );
 };

@@ -1,35 +1,23 @@
-import { selectCurrentMonth } from "features/budget/budgetSlices";
-
 import "./Doughnut.css";
 
 import { Chart } from "./Chart";
-import { useSelector } from "react-redux";
+import { budgetPercentage, totalAmount } from "services/calculation/calculation";
+import { CurrentCurrency } from "features/user/CurrentCurrency";
 
-export const Doughnut = ({ expenses }) => {
-  const currentBudget = useSelector(selectCurrentMonth)
-
-  const { budget } = currentBudget;
-
-  const expensesSum =
-    Object.values(expenses).length &&
-    Object.values(expenses)
-      .flat()
-      .reduce((acc, cur) => acc + cur.amount, 0);
-
-  const percentage = isNaN(Math.round((100 * expensesSum) / budget))
-    ? 0
-    : Math.round((100 * expensesSum) / budget);
-
+export const Doughnut = ({expensesList, budget}) => {
+  const percentage = budgetPercentage(expensesList, budget.budget)
+  const total = totalAmount(expensesList)
+  const budgetCurrent = budget.budget
+  
   return (
     <div className="doughnut">
       <div className="chart-container">
-        <Chart percentage={percentage} />
+        <Chart budgetCurrent={budgetCurrent} totalAmount={total} />
         <h5 className="progress">{percentage} %</h5>
       </div>
       <h5 className="expenses">
-        <span>{expensesSum} $</span>
-        <span className="slash">/</span>{" "}
-        <span className="limit">{budget} $</span>
+        <span>{total} <CurrentCurrency /> </span>
+        <span className="slash">/</span> <span className="limit">{budgetCurrent} <CurrentCurrency /></span>
       </h5>
     </div>
   );

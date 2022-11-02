@@ -26,3 +26,11 @@
   background-color: var(--heavenly);
   box-shadow: 0 2px 4px 1px rgba(33, 79, 241, 0.25);
 }
+
+.nofilter {
+  position: relative;
+  padding: 0.25rem 0.8rem;
+  background-color: var(--white);
+  border-radius: var(--radius);
+  font-size: 0.875rem;
+}

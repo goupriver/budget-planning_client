@@ -1,38 +1,45 @@
 import "./Vertical.css";
 
 import { Chart } from "./Chart";
-import { useSelector } from "react-redux";
-import { selectAllExpenses, selectStatusExpenses } from "features/expenses/expensesSlice";
-import { selectAllBudget } from "features/budget/budgetSlices";
-import { getData } from "services/math/charts";
+import { totalAmount, verticalChart } from "services/calculation/calculation";
+import { CurrentCurrency } from "features/user/CurrentCurrency";
 
-export const Vertical = () => {
+export const Vertical = ({ compareList, budgetCompare }) => {
+  const [totalA, totalB] = [
+    totalAmount(compareList.a),
+    totalAmount(compareList.b),
+  ];
 
-  const expenses = useSelector(selectAllExpenses);
-  const allBudget = useSelector(selectAllBudget);
-  const status = useSelector(selectStatusExpenses);
-
-  const [first, second] = Object.entries(expenses)
-
-  let data 
-
-  if (status === "succeeded") {
-    data = getData([first, second], allBudget)
-  }
+  const [monthA, monthB] = [
+    verticalChart({ expensesList: compareList.a }),
+    verticalChart({ expensesList: compareList.b }),
+  ];
 
   return (
     <>
-      <div className="chart-container-vertical">
-        <Chart content={data} />
-      </div>
-      <div className="stats">
-        <div className="one">
-          <div className="circle"></div>
-          <h4 className="price">{data.second.expenses} $</h4>
+      {(!!compareList.a.length || !!compareList.b.length) && (
+        <div className="chart-container-vertical">
+          <Chart
+            budgetCompare={budgetCompare}
+            monthA={monthA}
+            monthB={monthB}
+          />
         </div>
+      )}
+      <div className="statspost">
         <div className="two">
           <div className="circle"></div>
-          <h4 className="price">{data.first.expenses} $</h4>
+          <h4 className="price">
+            {!!totalA && totalA} {!!totalA && <CurrentCurrency />}
+            {!!!totalA && "no expenses"}
+          </h4>
+        </div>
+        <div className="one">
+          <div className="circle"></div>
+          <h4 className="price">
+            {!!totalB && totalB} {!!totalB && <CurrentCurrency />}
+            {!!!totalB && "no expenses"}
+          </h4>
         </div>
       </div>
     </>

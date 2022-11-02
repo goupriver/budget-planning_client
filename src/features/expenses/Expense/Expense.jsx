@@ -1,7 +1,11 @@
 import styles from "./Expense.module.css";
+import spinner from "assets/images/spinner.gif";
+import { useState } from "react";
 
-export const Expense = ({ expense }) => {
+export const Expense = ({ expense, url }) => {
   const { amount, category, details } = expense;
+
+  const [img, setImg] = useState(spinner);
 
   return (
     <main>
@@ -15,7 +19,16 @@ export const Expense = ({ expense }) => {
       </div>
       <div className={styles.category}>
         <span className={styles.title}>Photos</span>
-        <div className={styles.photos}>IMG</div>
+        <div className={styles.image}>
+        <a href={img} target="_blank" rel="noreferrer">
+        <img
+          className={styles.photos}
+          onLoad={() => setImg(url)}
+          src={img}
+          alt="order"
+        />
+        </a>
+        </div>
       </div>
       <div className={styles.category}>
         <span className={styles.title}>More Details</span>

@@ -1,4 +1,3 @@
-import React from "react";
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -11,13 +10,18 @@ ChartJS.register(CategoryScale, LinearScale, BarElement);
 
 export const options = {
   responsive: true,
+  borderWidth: 5,
+  borderSkipped: false,
+  minBarLength: 20,
+  borderColor: '#fff',
+  events: ["click"],
   indexAxis: "x",
   scales: {
     x: {
       display: true,
       ticks: {
+        crossAlign: 'center',
         minRotation: 90,
-        mirror: false,
         color: "#000",
       },
       grid: {
@@ -41,37 +45,31 @@ export const options = {
   },
 };
 
-export function Chart({ expenses }) {
-  const arrFlat =
-    Object.values(expenses).length && Object.values(expenses).flat();
 
-  const expensesSum = arrFlat.reduce((acc, cur) => acc + cur.amount, 0);
 
-  let obj = {};
+export function Chart({ prepareCalculations, setExpenseOfCategory }) {
+  const [labels, amount] = prepareCalculations;
 
-  arrFlat.forEach((e) => {
-    if (e.category in obj) {
-      obj[e.category] += e.amount;
-    } else {
-      obj[e.category] = e.amount;
-    }
-  });
-
-  let category = ["Expenses", ...Object.keys(obj)];
-  let amount = [expensesSum, ...Object.values(obj)];
+  const plugins = [
+    {
+      id: "clickAfter",
+      afterEvent(chart) {
+        setExpenseOfCategory(chart.tooltip.dataPoints[0].raw);
+      },
+    },
+  ];
 
   const data = {
-    labels: category,
+    labels,
     datasets: [
       {
-        label: "Sept",
         data: amount,
         backgroundColor: "#214FF1",
-        borderRadius: "50",
-        barPercentage: 0.4,
+        borderRadius: "10",
+        barPercentage: 0.5,
       },
     ],
   };
 
-  return <Bar options={options} data={data} />;
+  return <Bar options={options} data={data} plugins={plugins} />;
 }

@@ -1,70 +1,81 @@
 import { Close, Button } from "common/buttons";
 import { RangeSlider, Select } from "common/forms";
-import { fetchExpenses, filterExpenses, selectAllExpenses, selectStatusExpenses } from "features/expenses/expensesSlice";
-import { useEffect, useLayoutEffect, useState } from "react";
+import { expenses, status } from "features/expenses/expensesSlice";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
-import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { useLocation, useNavigate, useSearchParams } from "react-router-dom";
 import styles from "./Filter.module.css";
+import { getCenterData } from "./utils/getCenterData";
 
 export const Filter = () => {
-  const expenses = useSelector(selectAllExpenses)
-  const status = useSelector(selectStatusExpenses)
-
-  const expRes = status === 'succeeded' ? Object.values(expenses).flat() : 0
-  const expensesSum = !!expRes && expRes.reduce((acc ,element) => acc + element.amount, 0)
-
-  const [[min, max], setRangeData] = useState([0, expensesSum]);
-
-  const dispatch = useDispatch();
   const navigate = useNavigate();
-
   const {
     register,
     handleSubmit,
+    resetField,
     formState: { errors },
   } = useForm({
-    mode: "onSubmit",
+    mode: "onFocus", // ошибки проверяются после потери фокуса
   });
+  let [searchParams, setSearchParams] = useSearchParams();
+
+
+
+  const [range, setRange] = useState([])
+  const expensesStatus = useSelector(status);
+  const listExpenses = useSelector(expenses);
+  const dataRange = getCenterData(listExpenses);
 
   const onSubmit = (data) => {
-    dispatch(filterExpenses({ ...data, amount: { min, max } }));
-    navigate("/stats/log", { replace: true });
+    const url = '/stats/log'
+    const filter = JSON.stringify({...data, range})
+    navigate(`${url}?filter=${filter}`);
   };
+
+  const onReset = () => navigate('/stats/log');
 
   const onCloseClick = () => {
     navigate(-1);
   };
 
-  // const onResetStoreClick = () => {
-  //   dispatch(fetchExpenses())
-  // }
+  let content;
 
-  return (
-    <div className={styles.wrapper}>
-      <header>
-        <span>Filter by</span>
-        <Close onClick={onCloseClick} variant="black" />
-      </header>
-      <form onSubmit={handleSubmit(onSubmit)}>
-        <Select
-          name="category"
-          type="checkbox"
-          register={register}
-          errors={errors}
-          options={{
-            required: { value: true, message: "select category" },
-          }}
-        />
-        <div className={styles.range}>
-          <span>Amount</span>
-          <RangeSlider expensesSum={expensesSum} setRangeData={setRangeData} />
-        </div>
-        <div className={styles.buttons}>
-          <Button  variant="primary_heavenly">Reset</Button>
-          <Button variant="primary_blue">Apply</Button>
-        </div>
-      </form>
-    </div>
-  );
+  if (expensesStatus === "succeeded") {
+    content = (
+      <>
+        <header>
+          <span>Filter by</span>
+          <Close onClick={onCloseClick} variant="black" />
+        </header>
+        <form onSubmit={handleSubmit(onSubmit)}>
+          <Select
+            name="category"
+            type="checkbox"
+            register={register}
+            errors={errors}
+            options={{
+              required: { value: true, message: "select category" },
+            }}
+          />
+          <div className={styles.range}>
+            <span>Amount</span>
+            <RangeSlider dataRange={dataRange} setRange={setRange}/>
+          </div>
+          <div className={styles.buttons}>
+            <Button variant="primary_heavenly" onClick={onReset} type="button">
+              Reset
+            </Button>
+            <Button variant="primary_blue" type="submit">
+              Apply
+            </Button>
+          </div>
+        </form>
+      </>
+    );
+  } else {
+    content = <div>loading...</div>;
+  }
+
+  return <div className={styles.wrapper}>{content}</div>;
 };

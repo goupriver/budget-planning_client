@@ -3,7 +3,7 @@
   padding: 3.8rem 0 3rem 0;
 }
 
-.chart-container-vertical + .stats {
+.statspost {
   display: flex;
   justify-content: space-evenly;
   align-items: center;

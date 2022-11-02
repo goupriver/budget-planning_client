@@ -1,59 +1,65 @@
-import { Link, useNavigate } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 
-import { Add, Button } from "common/buttons";
-import { ChartWrapper, Doughnut } from "common/charts";
+import { Add } from "common/buttons";
 import { ListExpenses } from "features/expenses/ListExpenses/ListExpenses";
 import { Slider } from "common/media";
-import { MonthAndYear } from "common/text";
-import { fetchExpenses, selectAllExpenses, selectStatusExpenses } from "features/expenses/expensesSlice";
 
 import styles from "./Home.module.css";
-import { useEffect } from "react";
+import { useSelector } from "react-redux";
+import { expenses, status } from "features/expenses/expensesSlice";
+import { Skeleton } from "./common/Skeleton/Skeleton";
+import { budgetStatus } from "features/budget/budgetSlice";
 
 export const Home = () => {
-  const expenses = useSelector(selectAllExpenses);
-  
   const navigate = useNavigate();
-  const dispatch = useDispatch()
 
+  const stateExpenses = useSelector(status);
+  const expensesList = useSelector(expenses);
+  const budgetStat = useSelector(budgetStatus);
 
-  useEffect(() => {
-    dispatch(fetchExpenses())
-  }, [dispatch])
-
-  const onOpenEditBudgetClick = () => {
-    navigate("/edit");
+  const onAddExpensePageGoTo = () => {
+    navigate("addexpense");
   };
 
-  return (
-    <div className={styles.wrapper}>
-      <header>
-        <Slider>
-          <ChartWrapper swiper={true}>
-            <MonthAndYear>{new Date()}</MonthAndYear>
-            <Doughnut expenses={expenses}/>
-            <div className={styles.centerButton}>
-              <Button onClick={onOpenEditBudgetClick} variant="secondary_blue">
-                Edit Budget
-              </Button>
-            </div>
-          </ChartWrapper>
-        </Slider>
-      </header>
-      <main>
-        <div className={styles.seeAll}>
-          <div>Lost Expenses</div>
-          <Link to="stats/log">See all</Link>
-        </div>
-        <ListExpenses />
-      </main>
-      {!!Object.keys(expenses).length || (
+  let content;
+
+  if (stateExpenses === "succeeded" && budgetStat === "succeeded") {
+    let list = false;
+    let button = false;
+
+    if (!!expensesList.length) {
+      list = (
+        <>
+          <div className={styles.seeAll}>
+            <div>Lost Expenses</div>
+            <Link to="stats/log">See all</Link>
+          </div>
+          <ListExpenses />
+        </>
+      );
+    } else {
+      button = (
         <div className={styles.add}>
-          <Add />
+          <Add onClick={onAddExpensePageGoTo} />
           <h5>Add Expense</h5>
         </div>
-      )}
-    </div>
-  );
+      );
+    }
+
+    content = (
+      <div className={styles.wrapper}>
+        <header className={styles.header}>
+          <Slider />
+        </header>
+        <main className={styles.main}>
+          {list}
+          {button}
+        </main>
+      </div>
+    );
+  } else if (stateExpenses === "idle" || stateExpenses === "loading") {
+    content = <Skeleton />;
+  }
+
+  return content;
 };

@@ -3,23 +3,94 @@ import styles from "./Settings.module.css";
 import { Button } from "common/buttons";
 import { Icon } from "common/media";
 import { Switch } from "common/forms";
+import { ChakraProvider, Select } from "@chakra-ui/react";
+import { useSelector } from "react-redux";
+import { currencyChange, statusUser, user } from "features/user/userSlice";
+import { getCurrencySymbol } from "services/currency.helpers";
+import { useDispatch } from "react-redux";
+import { useMemo, useState } from "react";
+import {
+  isAuth,
+  signOutUser,
+  updatePassword,
+} from "services/firebase/auth/auth";
+import { useNavigate } from "react-router-dom";
+import { useIsAuth } from "app/IsAuth/IsAuth";
+import { Loader } from "./Loader/Loader";
 
 export const Settings = () => {
+  // const auth = useIsAuth()
+  const userStatus = useSelector(statusUser);
+  const navigate = useNavigate();
+  const { currency, userId } = useSelector(user);
+
+  const symbolCyrrency = useMemo(() => {
+    return getCurrencySymbol(currency);
+  }, [currency]);
+
+  const dispatch = useDispatch();
+
+  const onSignOutClick = async () => {
+    await signOutUser();
+    navigate("/");
+  };
+
+  const onCurencyChange = async (e) => {
+    dispatch(currencyChange({ userId: userId, currency: e.target.value }));
+  };
+
+  const [email, setEmail] = useState("");
+
+  isAuth().then((e) => (e ? setEmail(e.email) : ""));
+
+  let checkedCurrency;
+
+  checkedCurrency =
+    userStatus === "succeeded" ? (
+      <ChakraProvider>
+        <Select
+          onChange={onCurencyChange}
+          variant="unstyled"
+          value={currency}
+          icon={<Icon variant={styles.chevron}>chevronRight</Icon>}
+          color="#214ff1"
+        >
+          <option value="USD">USD</option>
+          <option value="EUR">EUR</option>
+          <option value="RUB">RUB</option>
+        </Select>
+      </ChakraProvider>
+    ) : (
+      <ChakraProvider>
+        <Select
+          variant="unstyled"
+          placeholder="loading..."
+          icon={<Icon variant={styles.chevron}>chevronRight</Icon>}
+          color="#214ff1"
+        >
+        </Select>
+      </ChakraProvider>
+      
+    );
+
   return (
     <div className={styles.wrapper}>
       <header>
         <div className={styles.page}>
           <h1>Settings</h1>
-          <Button variant="secondary_white">Log Out</Button>
+          <Button onClick={onSignOutClick} variant="secondary_white">
+            Log Out
+          </Button>
         </div>
         <div className={styles.email}>
           <h4>E-mail</h4>
-          <h4>goupriver@gmail.com</h4>
+          <h4>{email}</h4>
         </div>
       </header>
       <main>
         <button className={styles.password}>
           <span className={styles.name}>Change Password</span>
+
           <Icon variant={styles.chevron}>chevronRight</Icon>
         </button>
         <div className={styles.switch}>
@@ -30,10 +101,9 @@ export const Settings = () => {
           <div className={styles.name}>Currency</div>
           <button>
             <div className={styles.circle}>
-              <span>$</span>
+              <span>{symbolCyrrency}</span>
             </div>
-            <div className={styles.text}>US Dollars</div>
-            <Icon variant={styles.chevron}>chevronRight</Icon>
+            {checkedCurrency}
           </button>
         </div>
       </main>

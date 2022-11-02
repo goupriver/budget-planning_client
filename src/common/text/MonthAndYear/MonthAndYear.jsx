@@ -1,8 +1,9 @@
 import styles from './MonthAndYear.module.css'
-import {getYear, getMonth} from 'services/dates/format.helpers'
+import { getYear } from 'services/dates/format.helpers.ts'
+import { getMonthString } from 'services/dates/format.helpers';
 
-export const MonthAndYear = ({children: date}) => {
-  const month = getMonth(date)
+export const MonthAndYear = ({ children: date }) => {
+  const month = getMonthString(date)
   const year = getYear(date)
 
   return (

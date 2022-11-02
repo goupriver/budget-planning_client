@@ -1,4 +1,5 @@
 import { Icon } from "common/media";
+import { CurrentCurrency } from "features/user/CurrentCurrency";
 
 import styles from "./TextFieldAddExpense.module.css";
 
@@ -18,9 +19,9 @@ export const TextFieldAddExpense = ({
           {...register(name, options)}
           className={styles.input}
         />
-        <span>$</span>
+        <CurrentCurrency />
       </div>
-      
+
       {errors[name]?.message && (
         <div className={styles.error}>
           <Icon>error</Icon> <h5>{errors[name].message}</h5>

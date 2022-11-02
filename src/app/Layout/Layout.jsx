@@ -1,11 +1,20 @@
+import { useIsAuth } from "app/IsAuth/IsAuth";
 import { Navbar } from "app/Navbar/Navbar";
 import { Outlet } from "react-router-dom";
 
 export const Layout = () => {
+  const auth = useIsAuth();
+
   return (
     <>
-      <Outlet />
-      <Navbar />
+      {auth ? (
+        <>
+          <Outlet />
+          <Navbar />
+        </>
+      ) : (
+        false
+      )}
     </>
   );
 };

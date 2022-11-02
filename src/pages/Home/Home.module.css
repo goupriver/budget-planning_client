@@ -1,8 +1,3 @@
-.centerButton {
-  display: flex;
-  justify-content: center;
-}
-
 .add {
   display: flex;
   flex-direction: column;
@@ -33,4 +28,13 @@
 
 .seeAll a {
   color: var(--blue);
+}
+
+.header {
+  margin-left: -1.25rem;
+  margin-right: -1.25rem;
+}
+
+.main {
+  padding-bottom: 4.8rem;
 }

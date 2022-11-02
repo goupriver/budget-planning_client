@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react';
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -7,9 +7,9 @@ import {
   Title,
   Tooltip,
   Legend,
-} from "chart.js";
-import { Bar } from "react-chartjs-2";
-import { getShortMonth } from "services/dates/format.helpers";
+} from 'chart.js';
+import { Bar } from 'react-chartjs-2';
+import { getMonthStringShort } from 'services/dates/format.helpers';
 
 ChartJS.register(
   CategoryScale,
@@ -22,25 +22,26 @@ ChartJS.register(
 
 export const options = {
   responsive: true,
-  indexAxis: "x",
+  borderSkipped: false,
+  indexAxis: 'x',
   scales: {
     x: {
       display: true,
       ticks: {
         minRotation: 90,
         mirror: false,
-        color: "#000",
+        color: '#000',
       },
       grid: {
-        borderColor: "transparent",
+        borderColor: 'transparent',
         drawOnChartArea: false,
         drawTicks: true,
-        tickColor: "transparent",
-      },
+        tickColor: 'transparent'
+      }
     },
     y: {
-      display: false,
-    },
+      display: false
+    }
   },
   plugins: {
     legend: {
@@ -52,47 +53,29 @@ export const options = {
   },
 };
 
-export function Chart({ content }) {
+export function Chart({monthA, monthB, budgetCompare}) {
 
-  let labels = ["Bills", "Food", "Clothes", "Transport", "Fun", "Other"];
-  let first = [];
-  let second = [];
-
-  labels.forEach((e) => {
-      if ([e] in content.first.category) {
-        first.push(content.first.category[e]);
-      } else {
-        first.push(0);
-      }
-  });
-
-  labels.forEach((e) => {
-    if ([e] in content.second.category) {
-      second.push(content.second.category[e]);
-    } else {
-      second.push(0);
+const data = {
+  labels: ['Total', 'Bills', 'Food', 'Clothes', 'Transport', 'Fun', 'Other'],
+  datasets: [
+    {
+      categoryPercentage: 0.6,
+      barPercentage: 0.6,
+      label: getMonthStringShort(new Date(budgetCompare.date.a.year, budgetCompare.date.a.month)),
+      data: monthA[1],
+      backgroundColor: '#214FF1',
+      borderRadius: '50',
+    },
+    {
+      categoryPercentage: 0.6,
+      barPercentage: 0.6,
+      label: getMonthStringShort(new Date(budgetCompare.date.b.year, budgetCompare.date.b.month)),
+      data: monthB[1],
+      backgroundColor: ['#3BD0FF'],
+      borderRadius: '50',
     }
-});
-
-  const data = {
-    labels: ["Expenses", "Bills", "Food", "Clothes", "Transport", "Fun", "Other"],
-    datasets: [
-      {
-        label: getShortMonth(new Date(content.second.year, content.second.month - 1)),
-        data: [content.first.expenses, ...second],
-        backgroundColor: "#214FF1",
-        borderRadius: "50",
-        barPercentage: 0.7,
-      },
-      {
-        label: getShortMonth(new Date(content.first.year, content.first.month - 1)),
-        data: [content.second.expenses, ...first],
-        backgroundColor: ["#3BD0FF"],
-        borderRadius: "50",
-        barPercentage: 0.7,
-      },
-    ],
-  };
+  ],
+};
 
   return <Bar options={options} data={data} />;
 }

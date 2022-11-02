@@ -1,34 +1,56 @@
 import styles from "./LogIn.module.css";
+import './active.css'
 
 import { useForm } from "react-hook-form";
 
 import { TextField } from "common/forms";
 import { Button } from "common/buttons";
+import { signInUserEmail } from "services/firebase/auth/auth";
+import { useState } from "react";
+import { Link, NavLink, useNavigate } from "react-router-dom";
 
 export const LogIn = () => {
   const {
     register,
     handleSubmit,
-    reset,
     formState: { errors },
   } = useForm({
-    mode: "onFocus", // ошибки проверяются после потери фокуса
+    mode: "onFocus",
   });
 
-  const onSubmit = (data) => {
-    console.log("onSubmit >>> ", data);
-    // reset(); // -очистка всех полей формы
+  const navigate = useNavigate();
+
+  const [userNot, setUserNot] = useState(false);
+  const onSubmit = async (data) => {
+    const req = await signInUserEmail(data.email, data.password);
+    if (req === "auth/user-not-found") {
+      setUserNot({ field: "email", message: "user not found" });
+      return;
+    } else if (req === "auth/wrong-password") {
+      setUserNot({ field: "password", message: "password incorrect" });
+      return;
+    }
+    navigate("/");
   };
   return (
     <div className={styles.wrapper}>
       <div className={styles.selector}>
-        <a href="#">Log In</a>
-        <a href="#">Register</a>
+        {/* <Link to="/login">Log In</Link> */}
+        {/* <Link to="/register">Register</Link> */}
+        <NavLink
+          to="/login"
+          className={({ isActive }) => (isActive ? "active" : null)}
+        >Log In</NavLink>
+         <NavLink
+          to="/register"
+          className={({ isActive }) => (isActive ? "active" : null)}
+        >Register</NavLink>
       </div>
       <form className={styles.form} onSubmit={handleSubmit(onSubmit)}>
         <label htmlFor="email">
           <h4>E-mail</h4>
           <TextField
+            userNot={userNot}
             name="email"
             type="text"
             register={register}
@@ -42,6 +64,7 @@ export const LogIn = () => {
         <label htmlFor="password">
           <h4>Password</h4>
           <TextField
+            userNot={userNot}
             name="password"
             type="password"
             errors={errors}
@@ -52,10 +75,12 @@ export const LogIn = () => {
             register={register}
           />
         </label>
-        <a className={styles.forgotPassword} href="#">
+        <Link className={styles.forgotPassword} to="/resetpass">
           Forgot Password
-        </a>
-        <Button variant="primary_blue">Log In</Button>
+        </Link>
+        <Button variant="primary_blue" type="submit">
+          Log In
+        </Button>
         <h5 className={styles.alternative}>or continue with</h5>
         <div className={styles.authSocial}>
           <Button variant="primary_heavenly">Facebook</Button>

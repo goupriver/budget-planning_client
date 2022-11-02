@@ -8,6 +8,7 @@ export const TextField = ({
   register,
   errors,
   options = undefined,
+  userNot = false
 }) => {
   return (
     <>
@@ -18,9 +19,14 @@ export const TextField = ({
         className={styles.input}
       />
 
-      {errors[name]?.message && (
+      {errors[name]?.message && !userNot?.field && (
         <div className={styles.error}>
           <Icon>error</Icon> <h5>{errors[name].message}</h5>
+        </div>
+      )}
+      {userNot.field === type && (
+        <div className={styles.error}>
+          <Icon>error</Icon> <h5>{userNot.message}</h5>
         </div>
       )}
     </>

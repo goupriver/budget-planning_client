@@ -14,33 +14,13 @@ const options = {
   },
 };
 
-export const data = {
-  labels: ["Red", "Blue"],
-  datasets: [
-    {
-      label: "# of Votes",
-      data: [30, 70],
-      backgroundColor: ["#214FF1", "#F8F8F8"],
-      borderColor: ["#214FF1", "#214FF1"],
-      borderWidth: 2,
-      rotation: 0,
-      circumference: 360,
-      animation: {
-        animateRotate: true,
-      },
-    },
-  ],
-};
+export function Chart({result}) {
 
-export function Chart({percentage}) {
-
-
-  const data = {
-    labels: ["Spent", "Left"],
+ const data = {
+    labels: ["Amount", "Budget"],
     datasets: [
       {
-        label: "",
-        data: [percentage, percentage > 100 ? 0 : 100 - percentage],
+        data: result,
         backgroundColor: ["#214FF1", "#F8F8F8"],
         borderColor: ["#214FF1", "#214FF1"],
         borderWidth: 2,

@@ -12,7 +12,7 @@
 .page {
   display: flex;
   justify-content: space-between;
-  margin-bottom: 15vh;
+  margin-bottom: 3.3rem;
 }
 
 .page h1 {

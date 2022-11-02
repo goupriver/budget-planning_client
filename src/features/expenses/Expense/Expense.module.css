@@ -21,3 +21,11 @@
 .details {
   font-weight: 400;
 }
+
+.photos {
+  border-radius: var(--radius);
+}
+
+.image {
+  width: 150px;
+}

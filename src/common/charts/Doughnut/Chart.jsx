@@ -1,4 +1,3 @@
-import React from "react";
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
 import { Doughnut } from "react-chartjs-2";
 
@@ -14,13 +13,15 @@ const options = {
   },
 };
 
-export function Chart({ percentage }) {
+export function Chart({budgetCurrent, totalAmount}) {
+  const result = totalAmount > budgetCurrent ? [100, 0] : [(totalAmount * 100) / budgetCurrent, 100 - (totalAmount * 100) / budgetCurrent] 
+  
   const data = {
-    labels: ["Spent", "Left"],
+    labels: ["Expenses", "Left"],
     datasets: [
       {
         label: "",
-        data: [percentage, percentage > 100 ? 0 : 100 - percentage],
+        data: result,
         backgroundColor: ["#214FF1", "#F8F8F8"],
         rotation: 270,
         circumference: 180,
@@ -30,6 +31,6 @@ export function Chart({ percentage }) {
       },
     ],
   };
-
+  
   return <Doughnut options={options} data={data} />;
 }

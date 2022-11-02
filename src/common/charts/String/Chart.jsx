@@ -27,8 +27,7 @@ export const Chart = ({dates, amount, firstInterval, lastInterval}) => {
         min: firstInterval, 
         max: lastInterval, 
         grid: {
-          color
-          : "transparent",
+          color: "transparent",
           borderColor: "transparent",
           tickColor: "transparent",
         },

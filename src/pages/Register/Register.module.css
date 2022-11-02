@@ -13,8 +13,8 @@
 
 .selector a {
   font-size: 1.625rem;
+  color: var(--heavenly);
   font-weight: 800;
-  color: var(--blue);
   width: 40%;
 }
 
@@ -26,3 +26,8 @@
   display: block;
   padding-top: 3rem;
 }
+
+.but {
+  padding-top: 5rem;
+}
+

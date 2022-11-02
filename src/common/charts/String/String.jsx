@@ -3,49 +3,22 @@ import "./String.css";
 import { Icon } from "common/media";
 import { Chart } from "./Chart";
 import { useSelector } from "react-redux";
-import { selectCurrentMonth } from "features/budget/budgetSlices";
-import { getDaysInMonth } from "date-fns";
+import { currentActivity } from "features/activity/activitySlice";
+import { expenses } from "features/expenses/expensesSlice";
+import { listDaysInMonth } from "./utils/date/listDaysInMonth";
+import { dailyExpenses } from "./utils/calculation/dailyExpenses";
 import { useState } from "react";
 
-export const String = ({ expenses }) => {
-  const currentMonth = useSelector(selectCurrentMonth);
+export const String = () => {
+  const activity = useSelector(currentActivity);
+  const expensesList = useSelector(expenses);
 
-  let dateISO = currentMonth.date.split("-");
-  let dateNumber = [+dateISO[0], +dateISO[1]];
-  let daysInMonth = getDaysInMonth(new Date(dateNumber[0], dateNumber[1]));
-  let dayOfMonth = [];
-  for (let i = 1; i < daysInMonth + 1; i++) {
-    dayOfMonth.push(i);
-  }
+  const daysInMonth = activity ? listDaysInMonth(activity) : undefined;
 
-  const arrFlat =
-    Object.values(expenses).length && Object.values(expenses).flat();
-
-  let obj = {};
-
-  arrFlat.forEach((e) => {
-    const date = new Date(e.date).getDate();
-
-    if ([date] in obj) {
-      obj[date] += e.amount;
-    } else {
-      obj[date] = e.amount;
-    }
-  });
-
-  dayOfMonth.forEach((e) => {
-    if (!([e] in obj)) {
-      obj[e] = 0;
-    } else {
-    }
-  });
-
-  let dates = Object.keys(obj);
-  let amount = Object.values(obj);
-
+  const expenseDaily = dailyExpenses(daysInMonth.list, expensesList);
   const [[firstInterval, lastInterval, count, action], setInterval] = useState([
     0,
-    daysInMonth,
+    daysInMonth.days,
     0,
     "+",
   ]);
@@ -64,7 +37,7 @@ export const String = ({ expenses }) => {
 
   return (
     <>
-      <Chart dates={dates} amount={amount} firstInterval={firstInterval} lastInterval={lastInterval} />
+      <Chart dates={expenseDaily.dates} amount={expenseDaily.amount} firstInterval={firstInterval} lastInterval={lastInterval} />
       <div className="btn_wrapper">
         <button className="btn_zoom" onClick={onChangeScaleClick}>
           <h4>Zoom</h4>
