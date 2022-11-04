@@ -92,11 +92,11 @@
 
 @keyframes bigLetter {
   from {
-    transform: translate(100%, 30%);
+    opacity: 0;
   }
 
   to {
-    transform: translate(50%, 30%);
+    opacity: 1;
   }
 }
 
@@ -134,11 +134,16 @@
 @keyframes titleafter {
   0% {
     margin-left: 70%;
+    opacity: 0;
+  }
+  40% {
+    opacity: 0;
   }
   50% {
     margin-left: 70%;
+    opacity: 1;
   }
   100% {
-    margin-left: 1%;
+    margin-left: 0%;
   }
 }
