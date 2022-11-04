@@ -1,6 +1,6 @@
 import { Outlet, useNavigate } from "react-router-dom";
 
-import { TabBar } from "common/forms";
+import { TabBar } from "./common/TabBar/TabBar";
 import { Icon } from "common/media";
 import styles from "./Stats.module.css";
 

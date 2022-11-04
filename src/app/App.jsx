@@ -17,8 +17,8 @@ import {
   Settings,
   Stats,
 } from "pages";
-import { General } from "pages/Stats/General/General";
-import { ExpensesLog } from "pages/Stats/ExpensesLog/ExpensesLog";
+import { General } from "pages/Stats/common/General/General";
+import { ExpensesLog } from "pages/Stats/common/ExpensesLog/ExpensesLog";
 import { FetchData } from "./FetchData/FetchData";
 import { SetBudget } from "pages/SetBudget/SetBudget";
 import { Welcome } from "pages/Welcome/Welcome";
