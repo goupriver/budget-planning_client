@@ -6,7 +6,7 @@ import { useForm } from "react-hook-form";
 import { TextField } from "common/forms";
 import { Button } from "common/buttons";
 import { signInUserEmail } from "services/firebase/auth/auth";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link, NavLink, useNavigate } from "react-router-dom";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { app } from "services/firebase/config";
@@ -17,24 +17,23 @@ export const LogIn = () => {
     handleSubmit,
     formState: { errors },
   } = useForm({
-    mode: "onFocus",
+    mode: "onChange",
   });
 
   const auth = getAuth(app);
 
-  const [status, setStatus] = useState("idle")
-
-  onAuthStateChanged(auth, (user) => {
-    if (auth.currentUser) {
-      navigate("/");
-      setStatus("succeeded")
-    }
-    setStatus("succeeded")
-  })
+  useEffect(() => {
+    onAuthStateChanged(auth, (user) => {
+      if (auth.currentUser) {
+        navigate("/");
+      }
+    })
+  }, [])
 
   const navigate = useNavigate();
 
   const [userNot, setUserNot] = useState(false);
+
   const onSubmit = async (data) => {
     const req = await signInUserEmail(data.email, data.password);
     if (req === "auth/user-not-found") {
@@ -47,65 +46,57 @@ export const LogIn = () => {
     navigate("/");
   };
 
-  let content;
-  
-  content = status === "idle" ? "loading..." : (
-<div className={styles.wrapper}>
-      <div className={styles.selector}>
-        {/* <Link to="/login">Log In</Link> */}
-        {/* <Link to="/register">Register</Link> */}
-        <NavLink
-          to="/login"
-          className={({ isActive }) => (isActive ? "active" : null)}
-        >Log In</NavLink>
-         <NavLink
-          to="/register"
-          className={({ isActive }) => (isActive ? "active" : null)}
-        >Register</NavLink>
-      </div>
-      <form className={styles.form} onSubmit={handleSubmit(onSubmit)}>
-        <label htmlFor="email">
-          <h4>E-mail</h4>
-          <TextField
-            userNot={userNot}
-            name="email"
-            type="text"
-            register={register}
-            errors={errors}
-            options={{
-              required: { value: true, message: "enter your email" },
-              pattern: { value: /.+@.+\..+/i, message: "email not valid" },
-            }}
-          />
-        </label>
-        <label htmlFor="password">
-          <h4>Password</h4>
-          <TextField
-            userNot={userNot}
-            name="password"
-            type="password"
-            errors={errors}
-            options={{
-              required: { value: true, message: "enter your password" },
-              minLength: { value: 8, message: "password is too short" },
-            }}
-            register={register}
-          />
-        </label>
-        <Link className={styles.forgotPassword} to="/resetpass">
-          Forgot Password
-        </Link>
-        <Button variant="primary_blue" type="submit">
-          Log In
-        </Button>
-        <h5 className={styles.alternative}>or continue with</h5>
-        <div className={styles.authSocial}>
-          <Button variant="primary_heavenly">Facebook</Button>
-          <Button variant="primary_heavenly">Google</Button>
-        </div>
-      </form>
+  return <div className={styles.wrapper}>
+  <div className={styles.selector}>
+    <NavLink
+      to="/login"
+      className={({ isActive }) => (isActive ? "active" : null)}
+    >Log In</NavLink>
+     <NavLink
+      to="/register"
+      className={({ isActive }) => (isActive ? "active" : null)}
+    >Register</NavLink>
+  </div>
+  <form className={styles.form} onSubmit={handleSubmit(onSubmit)}>
+    <label htmlFor="email">
+      <h4>E-mail</h4>
+      <TextField
+        userNot={userNot}
+        name="email"
+        type="text"
+        register={register}
+        errors={errors}
+        options={{
+          required: { value: true, message: "enter your email" },
+          pattern: { value: /.+@.+\..+/i, message: "email not valid" },
+        }}
+      />
+    </label>
+    <label htmlFor="password">
+      <h4>Password</h4>
+      <TextField
+        userNot={userNot}
+        name="password"
+        type="password"
+        errors={errors}
+        options={{
+          required: { value: true, message: "enter your password" },
+          minLength: { value: 8, message: "password is too short" },
+        }}
+        register={register}
+      />
+    </label>
+    <Link className={styles.forgotPassword} to="/resetpass">
+      Forgot Password
+    </Link>
+    <Button variant="primary_blue" type="submit">
+      Log In
+    </Button>
+    <h5 className={styles.alternative}>or continue with</h5>
+    <div className={styles.authSocial}>
+      <Button variant="primary_heavenly">Facebook</Button>
+      <Button variant="primary_heavenly">Google</Button>
     </div>
-  )
-  
-  return content
+  </form>
+</div>
 };
