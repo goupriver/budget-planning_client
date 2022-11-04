@@ -136,7 +136,7 @@ export const AddExpense = () => {
           </div>
           <div className={styles.textarea}>
             <span>More Details</span>
-            <Textarea name="details" register={register} />
+            <Textarea name="message" register={register} />
           </div>
         </main>
         <Button variant="primary_blue" type="submit">
