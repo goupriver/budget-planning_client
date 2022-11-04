@@ -7,7 +7,7 @@ import { TextField } from "common/forms";
 import { Button } from "common/buttons";
 import { createUserEmail } from "services/firebase/auth/auth";
 import { useState } from "react";
-import { Link, NavLink, useNavigate } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { app } from "services/firebase/config";
 

@@ -45,7 +45,12 @@ export const currencyChange = createAsyncThunk('user/currency', async ({userId, 
 export const userSlice = createSlice({
   name: 'users',
   initialState,
-  reducers: {},
+  reducers: {
+    clearUser: (state) => {
+      state.user = {userId: "", currency: "", email: ""}
+      state.status = "idle"
+    }
+  },
   extraReducers: builder => {
     builder
       .addCase(initUser.pending, (state) => {
@@ -88,6 +93,7 @@ export const userSlice = createSlice({
 })
 
 export default userSlice.reducer
+export const { clearUser } = userSlice.actions
 
 export const statusUser = state => state.user.status
 export const user = state => state.user.user

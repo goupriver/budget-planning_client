@@ -1,4 +1,4 @@
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 import { Add } from "common/buttons";
 import { ListExpenses } from "features/expenses/ListExpenses/ListExpenses";

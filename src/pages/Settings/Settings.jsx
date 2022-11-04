@@ -5,21 +5,20 @@ import { Icon } from "common/media";
 import { Switch } from "common/forms";
 import { ChakraProvider, Select } from "@chakra-ui/react";
 import { useSelector } from "react-redux";
-import { currencyChange, statusUser, user } from "features/user/userSlice";
+import { clearUser, currencyChange, statusUser, user } from "features/user/userSlice";
 import { getCurrencySymbol } from "services/currency.helpers";
 import { useDispatch } from "react-redux";
 import { useMemo, useState } from "react";
 import {
   isAuth,
   signOutUser,
-  updatePassword,
 } from "services/firebase/auth/auth";
 import { useNavigate } from "react-router-dom";
-import { useIsAuth } from "app/IsAuth/IsAuth";
-import { Loader } from "./Loader/Loader";
+import { clearActivity } from "features/activity/activitySlice";
+import { clearExpenses } from "features/expenses/expensesSlice";
+import { clearBudget } from "features/budget/budgetSlice";
 
 export const Settings = () => {
-  // const auth = useIsAuth()
   const userStatus = useSelector(statusUser);
   const navigate = useNavigate();
   const { currency, userId } = useSelector(user);
@@ -32,7 +31,11 @@ export const Settings = () => {
 
   const onSignOutClick = async () => {
     await signOutUser();
-    navigate("/");
+    dispatch(clearUser())
+    dispatch(clearActivity())
+    dispatch(clearExpenses())
+    dispatch(clearBudget())
+    navigate("/welcome");
   };
 
   const onCurencyChange = async (e) => {

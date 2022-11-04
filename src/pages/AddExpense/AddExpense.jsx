@@ -23,7 +23,6 @@ import { Skeleton } from "./common/Skeleton/Skeleton";
 import { user } from "features/user/userSlice";
 import { writeFile } from "services/firebase/storage/storage";
 import { useState } from "react";
-import { useIsAuth } from "app/IsAuth/IsAuth";
 
 export const AddExpense = () => {
   const navigate = useNavigate();
@@ -33,7 +32,6 @@ export const AddExpense = () => {
   const activityStatus = useSelector(statusActivity);
 
   const { userId } = useSelector(user);
-  // const auth = useIsAuth()
 
   const {
     register,

@@ -3,12 +3,9 @@ import { Outlet, useNavigate } from "react-router-dom";
 import { TabBar } from "common/forms";
 import { Icon } from "common/media";
 import styles from "./Stats.module.css";
-import { useIsAuth } from "app/IsAuth/IsAuth";
 
 export const Stats = () => {
   const navigate = useNavigate();
-
-  // const auth = useIsAuth()
 
   const onNavigateClick = (e) => {
     e.target.checked ? navigate("/stats/log") : navigate("/stats");

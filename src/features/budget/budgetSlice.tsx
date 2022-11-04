@@ -83,7 +83,14 @@ export const budgetCompare = createAsyncThunk(
 const budgetSlice = createSlice({
   name: "budget",
   initialState,
-  reducers: {},
+  reducers: {
+    clearBudget: (state) => {
+      state.budget = {}
+      state.budgetCompare = {a: {year: '', month: '', budget: ''}, b: {year: '', month: '', budget: ''}}
+      state.status = "idle"
+      state.budgetCompareStatus = "idle"
+    }
+  },
   extraReducers: (builder) => {
     builder
       .addCase(budgetFetch.pending, (state) => {
@@ -138,6 +145,8 @@ const budgetSlice = createSlice({
 });
 
 export default budgetSlice.reducer;
+export const { clearBudget } = budgetSlice.actions
+
 export const budgetStatus = state => state.budget.status
 export const budget = state => state.budget.budget
 
