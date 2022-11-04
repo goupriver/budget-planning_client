@@ -8,6 +8,8 @@ import { Button } from "common/buttons";
 import { signInUserEmail } from "services/firebase/auth/auth";
 import { useState } from "react";
 import { Link, NavLink, useNavigate } from "react-router-dom";
+import { getAuth, onAuthStateChanged } from "firebase/auth";
+import { app } from "services/firebase/config";
 
 export const LogIn = () => {
   const {
@@ -17,6 +19,18 @@ export const LogIn = () => {
   } = useForm({
     mode: "onFocus",
   });
+
+  const auth = getAuth(app);
+
+  const [status, setStatus] = useState("idle")
+
+  onAuthStateChanged(auth, (user) => {
+    if (auth.currentUser) {
+      navigate("/");
+      setStatus("succeeded")
+    }
+    setStatus("succeeded")
+  })
 
   const navigate = useNavigate();
 
@@ -32,8 +46,11 @@ export const LogIn = () => {
     }
     navigate("/");
   };
-  return (
-    <div className={styles.wrapper}>
+
+  let content;
+  
+  content = status === "idle" ? "loading..." : (
+<div className={styles.wrapper}>
       <div className={styles.selector}>
         {/* <Link to="/login">Log In</Link> */}
         {/* <Link to="/register">Register</Link> */}
@@ -88,5 +105,7 @@ export const LogIn = () => {
         </div>
       </form>
     </div>
-  );
+  )
+  
+  return content
 };

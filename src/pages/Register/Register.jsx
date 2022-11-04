@@ -8,6 +8,8 @@ import { Button } from "common/buttons";
 import { createUserEmail } from "services/firebase/auth/auth";
 import { useState } from "react";
 import { Link, NavLink, useNavigate } from "react-router-dom";
+import { getAuth, onAuthStateChanged } from "firebase/auth";
+import { app } from "services/firebase/config";
 
 export const Register = () => {
   const {
@@ -17,6 +19,18 @@ export const Register = () => {
   } = useForm({
     mode: "onFocus",
   });
+
+  const auth = getAuth(app);
+
+  const [status, setStatus] = useState("idle")
+
+  onAuthStateChanged(auth, (user) => {
+    if (auth.currentUser) {
+      navigate("/");
+      setStatus("succeeded")
+    }
+    setStatus("succeeded")
+  })
 
   const [userNot, setUserNot] = useState(false);
   const navigate = useNavigate();
@@ -30,7 +44,9 @@ export const Register = () => {
     navigate("/");
   };
 
-  return (
+  let content;
+  
+  content = status === "idle" ? "loading..." : (
     <div className={styles.wrapper}>
       <div className={styles.selector}>
         <NavLink
@@ -76,5 +92,7 @@ export const Register = () => {
         </Button></div>
       </form>
     </div>
-  );
+  )
+
+  return content
 };

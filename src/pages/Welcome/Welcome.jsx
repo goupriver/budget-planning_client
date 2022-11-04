@@ -1,8 +1,26 @@
-import { Link } from "react-router-dom";
+import { getAuth, onAuthStateChanged } from "firebase/auth";
+import { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { app } from "services/firebase/config";
 import styles from "./Welcome.module.css";
 
 export const Welcome = () => {
-  return (
+  const auth = getAuth(app);
+  const navigate = useNavigate();
+
+  const [status, setStatus] = useState("idle")
+
+  onAuthStateChanged(auth, (user) => {
+    if (auth.currentUser) {
+      navigate("/");
+      setStatus("succeeded")
+    }
+    setStatus("succeeded")
+  })
+
+  let content;
+  
+  content = status === "idle" ? "loading..." : (
     <div className={styles.container}>
       <div className={styles.box}>
         <h1 className={styles.title}>Welcome to HAVE</h1>
@@ -17,5 +35,7 @@ export const Welcome = () => {
       </div>
       <div className={styles.bigLetter}>o</div>
     </div>
-  );
+  )
+
+  return content;
 };
