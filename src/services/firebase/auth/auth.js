@@ -42,19 +42,6 @@ export async function signOutUser() {
   });
 }
 
-
-export async function isAuth() {
-  let a;
-  await onAuthStateChanged(auth, (user) => {
-    if (auth.currentUser) {
-      a = auth.currentUser
-    } else {
-      a = null
-    }
-  })
-  return a
-}
-
 export async function updatePassword(email) {
   const auth = getAuth();
   sendPasswordResetEmail(auth, email)

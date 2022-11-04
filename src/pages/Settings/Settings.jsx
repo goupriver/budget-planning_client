@@ -8,11 +8,8 @@ import { useSelector } from "react-redux";
 import { clearUser, currencyChange, statusUser, user } from "features/user/userSlice";
 import { getCurrencySymbol } from "services/currency.helpers";
 import { useDispatch } from "react-redux";
-import { useMemo, useState } from "react";
-import {
-  isAuth,
-  signOutUser,
-} from "services/firebase/auth/auth";
+import { useMemo } from "react";
+import { signOutUser } from "services/firebase/auth/auth";
 import { useNavigate } from "react-router-dom";
 import { clearActivity } from "features/activity/activitySlice";
 import { clearExpenses } from "features/expenses/expensesSlice";
@@ -42,9 +39,7 @@ export const Settings = () => {
     dispatch(currencyChange({ userId: userId, currency: e.target.value }));
   };
 
-  const [email, setEmail] = useState("");
-
-  isAuth().then((e) => (e ? setEmail(e.email) : ""));
+  const { email } = useSelector(user)
 
   let checkedCurrency;
 
@@ -73,7 +68,6 @@ export const Settings = () => {
         >
         </Select>
       </ChakraProvider>
-      
     );
 
   return (
