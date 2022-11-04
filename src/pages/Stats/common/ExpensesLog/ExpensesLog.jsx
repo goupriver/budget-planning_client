@@ -13,19 +13,18 @@ export const ExpensesLog = () => {
   const activity = useSelector(currentActivity);
   const status = useSelector(statusActivity);
   const navigate = useNavigate();
+  const location = useLocation();
 
   const onCallFilterClcik = () => {
     navigate("/filter");
   };
-  const domain = process.env.REACT_APP_DOMAIN;
 
-  const location = useLocation();
+  const { search }  = location
+  
+
   const searchParams = useMemo(() => {
-    const url = new URL(`${domain}${location.pathname}${location.search}`);
-    const q = url.searchParams.get("filter");
-    const searchParam = JSON.parse(q);
-    return searchParam;
-  }, []);
+    return search ? JSON.parse(search.match(/\{.+/)) : ""
+  }, [search]);
 
   return (
     <>

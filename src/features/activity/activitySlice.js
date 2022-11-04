@@ -36,7 +36,11 @@ const activitySlice = createSlice({
     nextMonthCurrent: (state, action) => {
       state.activity[action.payload].current = true
       state.activity[action.payload - 1].current = false
-    }
+    },
+    clearActivity: (state) => {
+      state.activity = []
+      state.status = "idle"
+    } 
   },
   extraReducers: builder => {
     builder
@@ -68,7 +72,7 @@ const activitySlice = createSlice({
 })
 
 export default activitySlice.reducer
-export const { previousMonthCurrent, nextMonthCurrent } = activitySlice.actions
+export const { previousMonthCurrent, nextMonthCurrent, clearActivity } = activitySlice.actions
 
 export const statusActivity = state => state.activity.status
 export const activity = state => state.activity.activity

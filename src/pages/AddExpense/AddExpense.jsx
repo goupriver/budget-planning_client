@@ -23,7 +23,6 @@ import { Skeleton } from "./common/Skeleton/Skeleton";
 import { user } from "features/user/userSlice";
 import { writeFile } from "services/firebase/storage/storage";
 import { useState } from "react";
-import { useIsAuth } from "app/IsAuth/IsAuth";
 
 export const AddExpense = () => {
   const navigate = useNavigate();
@@ -33,7 +32,6 @@ export const AddExpense = () => {
   const activityStatus = useSelector(statusActivity);
 
   const { userId } = useSelector(user);
-  // const auth = useIsAuth()
 
   const {
     register,
@@ -136,7 +134,7 @@ export const AddExpense = () => {
           </div>
           <div className={styles.textarea}>
             <span>More Details</span>
-            <Textarea name="details" register={register} />
+            <Textarea name="message" register={register} />
           </div>
         </main>
         <Button variant="primary_blue" type="submit">

@@ -21,6 +21,18 @@ export const SelectDate = ({ activityList, setDate }) => {
   const [currentMonth1, setCurrentMonth1] = useState(new Date().getMonth());
   const [currentMonth2, setCurrentMonth2] = useState(new Date().getMonth());
 
+  useLayoutEffect(() => {
+    if (expensesStatus === "succeeded") {
+      setCurrentMonth1(objExpenses[currentYear1][0]);
+    }
+  }, [currentYear1]);
+
+  useLayoutEffect(() => {
+    if (expensesStatus === "succeeded") {
+      setCurrentMonth2(objExpenses[currentYear2][0]);
+    }
+  }, [currentYear2]);
+
   useEffect(() => {
     const ar = [
       {
@@ -34,18 +46,6 @@ export const SelectDate = ({ activityList, setDate }) => {
     ];
     setDate(ar);
   }, [currentYear1, currentYear2, currentMonth1, currentMonth2, setDate]);
-
-  useLayoutEffect(() => {
-    if (expensesStatus === "succeeded") {
-      setCurrentMonth1(objExpenses[currentYear1][0]);
-    }
-  }, [currentYear1]);
-
-  useLayoutEffect(() => {
-    if (expensesStatus === "succeeded") {
-      setCurrentMonth1(objExpenses[currentYear2][0]);
-    }
-  }, [currentYear2]);
 
   const yearRender =
     expensesStatus === "succeeded" &&
@@ -144,6 +144,9 @@ export const SelectDate = ({ activityList, setDate }) => {
               onSlideChange={(e) => {
                 setCurrentMonth1(objExpenses[currentYear1][e.activeIndex]);
               }}
+              onSlidesGridLengthChange={(e) => {
+                e.activeIndex = 0
+              }}
               slidesPerView={5}
               centeredSlides={true}
               spaceBetween={0}
@@ -160,6 +163,9 @@ export const SelectDate = ({ activityList, setDate }) => {
             <Swiper
               onSlideChange={(e) => {
                 setCurrentMonth2(objExpenses[currentYear2][e.activeIndex]);
+              }}
+              onSlidesGridLengthChange={(e) => {
+                e.activeIndex = 0
               }}
               slidesPerView={5}
               centeredSlides={true}

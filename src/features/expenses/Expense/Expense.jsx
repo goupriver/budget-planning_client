@@ -3,7 +3,7 @@ import spinner from "assets/images/spinner.gif";
 import { useState } from "react";
 
 export const Expense = ({ expense, url }) => {
-  const { amount, category, details } = expense;
+  const { amount, category, message } = expense;
 
   const [img, setImg] = useState(spinner);
 
@@ -32,7 +32,7 @@ export const Expense = ({ expense, url }) => {
       </div>
       <div className={styles.category}>
         <span className={styles.title}>More Details</span>
-        <div className={styles.details}>{details}</div>
+        <div className={styles.details}>{message}</div>
       </div>
     </main>
   );

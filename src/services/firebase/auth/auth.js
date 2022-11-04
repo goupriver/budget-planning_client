@@ -38,23 +38,8 @@ export function signInUserEmail(email, password) {
 
 export async function signOutUser() {
   await signOut(auth).then(() => {
-    // Sign-out successful.
   }).catch((error) => {
-    // An error happened.
   });
-}
-
-
-export async function isAuth() {
-  let a;
-  await onAuthStateChanged(auth, (user) => {
-    if (auth.currentUser) {
-      a = auth.currentUser
-    } else {
-      a = null
-    }
-  })
-  return a
 }
 
 export async function updatePassword(email) {

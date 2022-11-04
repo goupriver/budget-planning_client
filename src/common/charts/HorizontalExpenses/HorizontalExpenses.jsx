@@ -3,6 +3,7 @@ import "./HorizontalExpenses.css";
 import { Chart } from "./Chart";
 import { getMonthStringShort } from "services/dates/format.helpers";
 import { totalAmount } from "services/calculation/calculation";
+import { CurrentCurrency } from "features/user/CurrentCurrency";
 
 export const HorizontalExpenses = ({ compareList, budgetCompare }) => {
   const {
@@ -31,14 +32,20 @@ export const HorizontalExpenses = ({ compareList, budgetCompare }) => {
           <h6 className="text">
             {getMonthStringShort(new Date(a.year, a.month))} {a.year}
           </h6>
-          <h4 className="price">{totalA ? `${totalA} $` : "no expenses"}</h4>
+          <h4 className="price">
+            {!!totalA && totalA} {!!totalA && <CurrentCurrency />}
+            {!!!totalA && "no expenses"}
+          </h4>
         </div>
         <div className="one">
           <div className="circle"></div>
           <h6 className="text">
             {getMonthStringShort(new Date(b.year, b.month))} {b.year}
           </h6>
-          <h4 className="price">{totalB ? `${totalB} $` : "no expenses"}</h4>
+          <h4 className="price">
+            {!!totalB && totalB} {!!totalB && <CurrentCurrency />}
+            {!!!totalB && "no expenses"}
+          </h4>
         </div>
       </div>
     </>
