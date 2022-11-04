@@ -8,19 +8,14 @@ export const Welcome = () => {
   const auth = getAuth(app);
   const navigate = useNavigate();
 
-  const [status, setStatus] = useState("idle")
 
   onAuthStateChanged(auth, (user) => {
     if (auth.currentUser) {
       navigate("/");
-      setStatus("succeeded")
     }
-    setStatus("succeeded")
-  })
+  });
 
-  let content;
-  
-  content = status === "idle" ? "loading..." : (
+  return (
     <div className={styles.container}>
       <div className={styles.box}>
         <h1 className={styles.title}>Welcome to HAVE</h1>
@@ -30,12 +25,11 @@ export const Welcome = () => {
         </div>
         <div className={styles.links}>
           {" "}
-          <Link to="/register">register</Link> <span className={styles.or}>or</span> <Link to="/login">log in</Link>
+          <Link to="/register">register</Link>{" "}
+          <span className={styles.or}>or</span> <Link to="/login">log in</Link>
         </div>
       </div>
       <div className={styles.bigLetter}>o</div>
     </div>
-  )
-
-  return content;
+  );
 };
