@@ -19,11 +19,12 @@ export const ExpensesLog = () => {
     navigate("/filter");
   };
 
-  const { search }  = location
-  
+  const { search } = location;
 
   const searchParams = useMemo(() => {
-    return search ? JSON.parse(search.match(/\{.+/)) : ""
+    return search
+      ? JSON.parse(search.replaceAll("%22", '"').match(/\{.+/))
+      : "";
   }, [search]);
 
   return (
