@@ -6,7 +6,7 @@ import { useForm } from "react-hook-form";
 import { TextField } from "common/forms";
 import { Button } from "common/buttons";
 import { createUserEmail } from "services/firebase/auth/auth";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { app } from "services/firebase/config";
@@ -15,6 +15,7 @@ export const Register = () => {
   const {
     register,
     handleSubmit,
+    watch,
     formState: { errors },
   } = useForm({
     mode: "onSubmit",
@@ -22,6 +23,13 @@ export const Register = () => {
 
   const navigate = useNavigate();
   const auth = getAuth(app);
+
+  const [userNot, setUserNot] = useState(false);
+
+  const editing = useMemo(() => {
+    setUserNot(false);
+    return { email: watch().email, password: watch().password };
+  }, [watch().email, watch().password]);
 
   useEffect(() => {
     onAuthStateChanged(auth, (user) => {
@@ -32,17 +40,22 @@ export const Register = () => {
   }, []);
 
   useEffect(() => {
-    setUserNot(false)
-  }, [errors])
+    setUserNot(false);
+  }, [errors]);
 
-  const [userNot, setUserNot] = useState(false);
   const onSubmit = async (data) => {
     const req = await createUserEmail(data.email, data.password);
     if (req === "auth/email-already-in-use") {
-      setUserNot({ field: "email", message: "this email is already in use" });
+      setUserNot({
+        field: "email",
+        message: "this email is already in use",
+        email: editing,
+      });
       return;
+    } else if (req === "auth/too-many-requests") {
+      setUserNot({ field: "email", message: "too many requests" });
     }
-    navigate("/");
+    !!req && navigate("/");
   };
 
   return (

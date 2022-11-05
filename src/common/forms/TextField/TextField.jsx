@@ -10,6 +10,7 @@ export const TextField = ({
   options = undefined,
   userNot = false
 }) => {
+
   return (
     <>
       <input
@@ -18,13 +19,12 @@ export const TextField = ({
         {...register(name, options)}
         className={styles.input}
       />
-
-      {errors[name]?.message && !userNot?.field && (
+      {errors[name]?.message && (
         <div className={styles.error}>
           <Icon>error</Icon> <h5>{errors[name].message}</h5>
         </div>
       )}
-      {userNot.field === type && (
+      {userNot.field === name && (
         <div className={styles.error}>
           <Icon>error</Icon> <h5>{userNot.message}</h5>
         </div>
