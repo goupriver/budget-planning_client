@@ -3,7 +3,7 @@ import { budgetFetch } from "features/budget/budgetSlice";
 import { expensesFetch } from "features/expenses/expensesSlice";
 import { fetchUser, user } from "features/user/userSlice";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
-import { useEffect, useLayoutEffect } from "react";
+import { useEffect } from "react";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
@@ -32,7 +32,7 @@ export const FetchData = () => {
         const isCurrentMonth = activityList.some((el) => el.current);
         !isCurrentMonth && (await dispatch(createActivity(userId)));
 
-        const s = activityList.some((el) => el.current === "ad");
+        activityList.some((el) => el.current === "ad");
         await dispatch(budgetFetch({ userId, date: currentDate }));
         await dispatch(expensesFetch({ userId, date: currentDate }));
       } else {

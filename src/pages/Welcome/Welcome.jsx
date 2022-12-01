@@ -1,5 +1,4 @@
 import { getAuth, onAuthStateChanged } from "firebase/auth";
-import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { app } from "services/firebase/config";
 import styles from "./Welcome.module.css";

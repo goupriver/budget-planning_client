@@ -3,9 +3,9 @@ import styles from "./ForgotPass.module.css";
 
 import { TextField } from "common/forms";
 import { Button } from "common/buttons";
-import { resetPassword, signInUserEmail } from "services/firebase/auth/auth";
+import { resetPassword } from "services/firebase/auth/auth";
 import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 export const ForgotPass = () => {
   const {

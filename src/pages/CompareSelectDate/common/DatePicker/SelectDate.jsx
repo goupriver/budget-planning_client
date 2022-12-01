@@ -13,7 +13,7 @@ import { status } from "features/expenses/expensesSlice";
 export const SelectDate = ({ activityList, setDate }) => {
   const expensesStatus = useSelector(status);
 
-  const { objExpenses, currentDate } =
+  const { objExpenses } =
     expensesStatus === "succeeded" && getPrepareObj(activityList);
 
   const [currentYear1, setCurrentYear1] = useState(new Date().getFullYear());

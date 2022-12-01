@@ -85,11 +85,11 @@ export const Settings = () => {
         </div>
       </header>
       <main>
-        <button className={styles.password}>
+        {/* <button className={styles.password}>
           <span className={styles.name}>Change Password</span>
 
           <Icon variant={styles.chevron}>chevronRight</Icon>
-        </button>
+        </button> */}
         <div className={styles.switch}>
           <span className={styles.name}>Use Face ID</span>
           <Switch type="checkbox" />

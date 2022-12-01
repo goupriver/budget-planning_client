@@ -4,7 +4,7 @@ import { expenses, status } from "features/expenses/expensesSlice";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useSelector } from "react-redux";
-import { useLocation, useNavigate, useSearchParams } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import styles from "./Filter.module.css";
 import { getCenterData } from "./utils/getCenterData";
 
@@ -13,14 +13,11 @@ export const Filter = () => {
   const {
     register,
     handleSubmit,
-    resetField,
     formState: { errors },
   } = useForm({
-    mode: "onFocus", // ошибки проверяются после потери фокуса
+    mode: "onFocus",
   });
-  let [searchParams, setSearchParams] = useSearchParams();
-
-
+  useSearchParams();
 
   const [range, setRange] = useState([])
   const expensesStatus = useSelector(status);

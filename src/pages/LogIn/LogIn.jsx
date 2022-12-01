@@ -105,11 +105,11 @@ export const LogIn = () => {
         <Button variant="primary_blue" type="submit">
           Log In
         </Button>
-        <h5 className={styles.alternative}>or continue with</h5>
+        {/* <h5 className={styles.alternative}>or continue with</h5>
         <div className={styles.authSocial}>
           <Button variant="primary_heavenly">Facebook</Button>
           <Button variant="primary_heavenly">Google</Button>
-        </div>
+        </div> */}
       </form>
     </div>
   );
