@@ -38,7 +38,8 @@ jobs:
         KEY: ${{ secrets.SSHKEY }}
         # echo "$Greeting $First_Name. Today is $DAY_OF_WEEK!"
         run: |
-          echo $REACT_APP_API_KEY > a.q
+          # cat $REACT_APP_API_KEY > a.q
+          mkdir a
         # script: echo $(env.KEY) >> lol
         # script: echo ${{ secrets.USERNAME }}
     # - run: npm i
