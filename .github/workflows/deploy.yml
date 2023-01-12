@@ -40,7 +40,7 @@ jobs:
         run: |
           # cat $REACT_APP_API_KEY > a.q
           # mkdir a
-        script: cat $REACT_APP_API_KEY > a.q
+        script: cat "awdwad" > a.q
         # script: echo ${{ secrets.USERNAME }}
     # - run: npm i
     # - run: npm run build --if-present
