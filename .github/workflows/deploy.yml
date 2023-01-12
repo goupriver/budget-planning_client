@@ -45,9 +45,9 @@ jobs:
           # cat $MY_ENV_VAR > a.q
           # mkdir a
         # script: echo "$MY_ENV_VAR" > env
-      run: echo "$MY_ENV_VAR" > env
-      run: echo "$DAY_OF_WEEK" > week
-         
+      - run: |
+        echo "$MY_ENV_VAR" > env
+        echo "$DAY_OF_WEEK" > week
         # github, secrets, inputs, vars
         # script: echo ${{ secrets.USERNAME }}
     # - run: npm i
