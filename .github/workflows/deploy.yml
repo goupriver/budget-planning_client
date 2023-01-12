@@ -2,6 +2,10 @@ name: Deploy
 
 on: [push]
 
+env:
+  MY_ENV_VAR: ${{ secrets.HOST }}
+  DAY_OF_WEEK: Monday
+
 jobs:
   build:
 
@@ -37,10 +41,14 @@ jobs:
         PORT: ${{ secrets.PORT }}
         KEY: ${{ secrets.SSHKEY }}
         # echo "$Greeting $First_Name. Today is $DAY_OF_WEEK!"
-        run: |
-          # cat $REACT_APP_API_KEY > a.q
+        # run: |
+          # cat $MY_ENV_VAR > a.q
           # mkdir a
-        script: printenv > env
+        # script: echo "$MY_ENV_VAR" > env
+        run: echo "$MY_ENV_VAR" > env
+        run: echo "$DAY_OF_WEEK" > week
+         
+        # github, secrets, inputs, vars
         # script: echo ${{ secrets.USERNAME }}
     # - run: npm i
     # - run: npm run build --if-present
