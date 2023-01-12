@@ -24,7 +24,6 @@ jobs:
       with:
         source: "."
         target: "/var/www/mywebsite"
-
     - name: Executing remote command
       uses: appleboy/ssh-action@master
       env:
