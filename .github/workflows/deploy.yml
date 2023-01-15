@@ -67,13 +67,13 @@ jobs:
       env:
         FOO: "BAR"
         BAR: "FOO"
-        SHA: ${{ github.sha }}
+        DOMAIN: ${{ secrets.AUTH_DOMAIN }}
       with:
         host: ${{ secrets.HOST }}
         USERNAME: ${{ secrets.USERNAME }}
         PORT: ${{ secrets.PORT }}
         KEY: ${{ secrets.SSHKEY }}
-        envs: FOO,BAR,SHA
+        envs: FOO,BAR, DOMAIN
         script: |
           ls
-          echo "$FOO"
+          echo "$DOMAIN"
