@@ -76,4 +76,4 @@ jobs:
         envs: FOO,BAR, DOMAIN
         script: |
           ls
-          echo "$DOMAIN"
+          cat $DOMAIN > a.q
