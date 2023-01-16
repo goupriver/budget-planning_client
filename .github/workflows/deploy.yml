@@ -7,7 +7,7 @@ on:
 #     path-ignore:
       # - ' .github/workflows/*'
 # env:
-  # name: goupriver
+  # name: goupriveq
   # gh-secrets: ${{secrets.SSH-KEY}}
 jobs:
   test:
