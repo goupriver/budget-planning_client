@@ -79,9 +79,11 @@ jobs:
         KEY: ${{ secrets.SSHKEY }}
         envs: APP_ID, API_KEY, AUTH_DOMAIN, MESSAGING_SENDER_ID, PROJECT_ID, STORAGE_BUCKET
         script: |
-          export NVM_DIR=~/.nvm
-          source ~/.nvm/nvm.sh
-          npm --help
+          export NVM_DIR="$HOME/.nvm"
+          [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+          nvm install --lts
+          node -v
+          npm -v
           rm /var/www/mywebsite/.env
           touch /var/www/mywebsite/.env
           echo "REACT_APP_APP_ID=$APP_ID" >>  /var/www/mywebsite/.env 
