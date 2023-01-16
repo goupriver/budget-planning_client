@@ -13,7 +13,7 @@ jobs:
   test:
     runs-on: ubuntu-latest
     steps:
-      - name: string
+#       - name: string
         # run: | 
           # echo "${{ env.name }}"
       - name: copy repo
