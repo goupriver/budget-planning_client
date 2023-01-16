@@ -79,9 +79,9 @@ jobs:
         KEY: ${{ secrets.SSHKEY }}
         envs: APP_ID, API_KEY, AUTH_DOMAIN, MESSAGING_SENDER_ID, PROJECT_ID, STORAGE_BUCKET
         script: |
-          exec bash
-          export NVM_DIR="$HOME/.nvm"
-          [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+          exec bash \-l
+          # export NVM_DIR="$HOME/.nvm"
+          # [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
           alias node='$NVM_BIN/node'
           alias npm='$NVM_BIN/npm'
           
