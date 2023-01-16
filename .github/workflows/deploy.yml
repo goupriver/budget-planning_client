@@ -82,8 +82,10 @@ jobs:
           # exec bash \-l
           # export NVM_DIR="$HOME/.nvm"
           # [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
-          alias node='$NVM_BIN/node'
-          alias npm='$NVM_BIN/npm'
+          export NVM_DIR=~/.nvm
+          source ~/.nvm/nvm.sh                
+          # alias node='$NVM_BIN/node'
+          # alias npm='$NVM_BIN/npm'
           
           node -v
           npm -v
