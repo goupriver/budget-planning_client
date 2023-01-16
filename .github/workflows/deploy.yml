@@ -79,6 +79,8 @@ jobs:
         KEY: ${{ secrets.SSHKEY }}
         envs: APP_ID, API_KEY, AUTH_DOMAIN, MESSAGING_SENDER_ID, PROJECT_ID, STORAGE_BUCKET
         script: |
+          alias node='$NVM_BIN/node'
+          alias npm='$NVM_BIN/npm'
           node -v
           npm -v
           rm /var/www/mywebsite/.env
