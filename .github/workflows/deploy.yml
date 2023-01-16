@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - backend
+      - master
 #     path-ignore:
       # - ' .github/workflows/*'
 # env:
