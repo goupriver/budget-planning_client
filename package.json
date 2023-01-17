@@ -1,7 +1,4 @@
 {
-  "engines": {
-    "node": "v16.19.0"
-   },
   "name": "client",
   "version": "0.1.0",
   "private": true,
