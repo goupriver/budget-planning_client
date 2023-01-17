@@ -25,7 +25,7 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v1
+    - uses: actions/checkout@v3
     - name: copy repository contents in VPS
       uses: appleboy/scp-action@master
       env:
@@ -35,7 +35,7 @@ jobs:
         KEY: ${{ secrets.SSHKEY }}
       with:
         source: "."
-        target: "."
+        target: "/root"
 #         target: "/var/www/mywebsite"
     - name: executing remote command
       uses: appleboy/ssh-action@master
