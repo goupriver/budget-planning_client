@@ -20,7 +20,7 @@ jobs:
         PASSWORD: ${{ secrets.PASS }}
       with:
         source: "."
-        target: "/var/www/mywebsite"
+        target: "/root"
 
     - name: Executing remote command
       uses: appleboy/ssh-action@master
@@ -30,4 +30,6 @@ jobs:
         PORT: ${{ secrets.PORT }}
 #         KEY: ${{ secrets.KEY }}
         PASSWORD: ${{ secrets.PASS }}
-        script: ls
+        script: |
+          npm ci 
+          npm start
