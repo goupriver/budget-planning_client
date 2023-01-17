@@ -38,19 +38,19 @@ jobs:
         target: "/var/www/mywebsite"
     - name: executing remote command
       uses: appleboy/ssh-action@master
-#       env:
-        # APP_ID: ${{ secrets.APP_ID }}
-        # API_KEY: ${{ secrets.API_KEY }}
-        # AUTH_DOMAIN: ${{ secrets.AUTH_DOMAIN }}
-        # MESSAGING_SENDER_ID: ${{ secrets.MESSAGING_SENDER_ID }}
-        # PROJECT_ID: ${{ secrets.PROJECT_ID }}
-        # STORAGE_BUCKET: ${{ secrets.STORAGE_BUCKET }}
+       env:
+         APP_ID: ${{ secrets.APP_ID }}
+         API_KEY: ${{ secrets.API_KEY }}
+         AUTH_DOMAIN: ${{ secrets.AUTH_DOMAIN }}
+         MESSAGING_SENDER_ID: ${{ secrets.MESSAGING_SENDER_ID }}
+         PROJECT_ID: ${{ secrets.PROJECT_ID }}
+         STORAGE_BUCKET: ${{ secrets.STORAGE_BUCKET }}
       with:
         host: ${{ secrets.HOST }}
         USERNAME: ${{ secrets.USERNAME }}
         PORT: ${{ secrets.PORT }}
         KEY: ${{ secrets.SSHKEY }}
-        # envs: APP_ID, API_KEY, AUTH_DOMAIN, MESSAGING_SENDER_ID, PROJECT_ID, STORAGE_BUCKET
+         envs: APP_ID, API_KEY, AUTH_DOMAIN, MESSAGING_SENDER_ID, PROJECT_ID, STORAGE_BUCKET
         script: |
           mkdir firstDir
           npm ci
