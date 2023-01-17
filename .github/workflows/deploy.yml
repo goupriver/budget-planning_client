@@ -16,7 +16,7 @@ jobs:
         HOST: ${{ secrets.HOST }}
         USERNAME: ${{ secrets.USERNAME }}
         PORT: ${{ secrets.PORT }}
-        KEY: ${{ secrets.KEY }}
+#         KEY: ${{ secrets.KEY }}
         PASSWORD: ${{ secrets.PASS }}
       with:
         source: "."
@@ -28,6 +28,6 @@ jobs:
         HOST: ${{ secrets.HOST }}
         USERNAME: ${{ secrets.USERNAME }}
         PORT: ${{ secrets.PORT }}
-        KEY: ${{ secrets.KEY }}
-        password: ${{ secrets.PASS }}
+#         KEY: ${{ secrets.KEY }}
+        PASSWORD: ${{ secrets.PASS }}
         script: ls
