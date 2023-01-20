@@ -11,7 +11,7 @@ jobs:
     - name: build
       run: |
         ls
-        npm ci
+        npm install
         npm run build
 #       ls ./build
     - uses: actions/checkout@v1
