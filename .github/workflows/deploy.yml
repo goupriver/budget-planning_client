@@ -22,3 +22,13 @@ jobs:
         with:
           source: "./build/"
           target: "/root"
+
+          
+      # - name: Executing remote command
+        # uses: appleboy/ssh-action@master
+        # with:
+          # host: ${{ secrets.HOST }}
+          # USERNAME: ${{ secrets.USERNAME }}
+          # PORT: ${{ secrets.PORT }}
+          # KEY: ${{ secrets.SSHKEY }}
+          # script: mkdri a
