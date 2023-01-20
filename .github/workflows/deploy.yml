@@ -10,8 +10,9 @@ jobs:
     steps:
     - name: build
       run: |
-        npm run build
-        ls ./build
+        ls
+#        npm run build
+ #       ls ./build
     - uses: actions/checkout@v1
 
     - name: Copy repository contents via scp
