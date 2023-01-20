@@ -11,21 +11,21 @@ jobs:
     - name: build
       run: |
         ls
-#        npm run build
- #       ls ./build
-    - uses: actions/checkout@v1
-
-    - name: Copy repository contents via scp
-      uses: appleboy/scp-action@master
-      env:
-        HOST: ${{ secrets.HOST }}
-        USERNAME: ${{ secrets.USERNAME }}
-        PORT: ${{ secrets.PORT }}
+#       npm run build
+#       ls ./build
+#    - uses: actions/checkout@v1
+#
+#    - name: Copy repository contents via scp
+#      uses: appleboy/scp-action@master
+#      env:
+#        HOST: ${{ secrets.HOST }}
+#        USERNAME: ${{ secrets.USERNAME }}
+#        PORT: ${{ secrets.PORT }}
 #         KEY: ${{ secrets.KEY }}
-        PASSWORD: ${{ secrets.PASS }}
-      with:
-        source: "./build"
-        target: "/root"
+#        PASSWORD: ${{ secrets.PASS }}
+#      with:
+#        source: "./build"
+#        target: "/root"
 # 
 #     - name: Executing remote command
 #       uses: appleboy/ssh-action@master
