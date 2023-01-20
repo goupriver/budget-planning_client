@@ -1,6 +1,6 @@
 {
   "name": "client",
-  "homepage": "http://mywebsite.com/root/",
+  "homepage": "http://mywebsite.com/root/build",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
