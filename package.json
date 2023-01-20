@@ -1,5 +1,6 @@
 {
   "name": "client",
+  "homepage": "http://mywebsite.com/root/",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
