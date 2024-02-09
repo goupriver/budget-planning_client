@@ -16,36 +16,24 @@ import {
   getYear,
 } from "services/dates/format.helpers";
 import { app } from "services/firebase/config";
-import {
-  UID,
-  Email,
-  UserID,
-  Budget,
-  IExpense,
-  IUser,
-  Currency,
-  IActivity,
-  INewExpense,
-  listDatesCompare,
-} from "types/types";
 
 const db = getFirestore(app);
 
 // USER //
 
-export async function createUser({ uid, email }: { uid: UID; email: Email }) {
+export async function createUser({ uid, email }) {
   const userRef = collection(db, "users");
   const userResponse = await addDoc(userRef, { email, uid, currency: "USD" });
-  const userId: UserID = userResponse.id;
+  const userId = userResponse.id;
 
-  return { userId, email, currency: "USD" as Currency };
+  return { userId, email, currency: "USD" };
 }
 
-export async function getUser(uid: UID) {
+export async function getUser(uid) {
   const q = query(collection(db, "users"), where("uid", "==", uid));
 
   const querySnapshot = await getDocs(q);
-  let user!: IUser;
+  let user;
 
   querySnapshot.forEach((doc) => {
     user = {
@@ -58,7 +46,7 @@ export async function getUser(uid: UID) {
   return user;
 }
 
-export async function changeCurrency(userId: UserID, currency: Currency) {
+export async function changeCurrency(userId, currency) {
   
   const docRef = doc(db, `users/${userId}`);
   
@@ -71,7 +59,7 @@ export async function changeCurrency(userId: UserID, currency: Currency) {
 
 // ACTIVITY //
 
-export async function initialActivity(userId: UserID) {
+export async function initialActivity(userId) {
   const date = getCurrentDate();
   const month = getMonth(date);
   const year = getYear(date);
@@ -82,14 +70,14 @@ export async function initialActivity(userId: UserID) {
   return { month, year, current: true };
 }
 
-export async function getActivity(userId: UserID, date: Date) {
+export async function getActivity(userId, date) {
   const currentMonth = getMonth(date);
   const currentYear = getYear(date);
 
   const q = query(collection(db, `users/${userId}/activity`));
   const querySnapshot = await getDocs(q);
 
-  let activity: IActivity[] = [];
+  let activity = [];
 
   querySnapshot.forEach((doc) => {
     const month = doc.data().month;
@@ -109,7 +97,7 @@ export async function getActivity(userId: UserID, date: Date) {
 
 // BUDGET //
 
-export async function createBudget(userId: UserID, date: Date, budget: Budget) {
+export async function createBudget(userId, date, budget) {
   const month = getMonth(date);
   const year = getYear(date);
 
@@ -120,7 +108,7 @@ export async function createBudget(userId: UserID, date: Date, budget: Budget) {
   return { month, year, budget };
 }
 
-export async function getBudget(userId: UserID, date: Date) {
+export async function getBudget(userId, date) {
   const month = getMonth(date);
   const year = getYear(date);
 
@@ -141,8 +129,8 @@ export async function getBudget(userId: UserID, date: Date) {
 }
 
 export async function compareBudget(
-  userId: UserID,
-  date: { a: Date; b: Date }
+  userId,
+  date
 ) {
 
   const month1 = getMonth(date.a);
@@ -185,7 +173,7 @@ export async function compareBudget(
   return data;
 }
 
-export async function updateBudget(userId: UserID, date: Date, budget: Budget) {
+export async function updateBudget(userId, date, budget) {
   const month = getMonth(date);
   const year = getYear(date);
 
@@ -212,7 +200,7 @@ export async function updateBudget(userId: UserID, date: Date, budget: Budget) {
 
 // EXPENSE //
 
-export async function addExpense(userId: UserID, expense: INewExpense) {
+export async function addExpense(userId, expense) {
   const activityRef = collection(db, `users/${userId}/expenses`);
 
   const expenseResponse = await addDoc(activityRef, expense);
@@ -224,7 +212,7 @@ export async function addExpense(userId: UserID, expense: INewExpense) {
   };
 }
 
-export async function getExpenses(userId: UserID, date: Date) {
+export async function getExpenses(userId, date) {
   const startMonth = getDateStartOfMonth(date);
   const endMonth = getDateEndtOfMonth(date);
 
@@ -233,7 +221,7 @@ export async function getExpenses(userId: UserID, date: Date) {
     where("date", "<=", endMonth),
     where("date", ">=", startMonth)
   );
-  let expenses: IExpense[] = [];
+  let expenses = [];
 
   const querySnapshot = await getDocs(q);
   querySnapshot.forEach((doc) => {
@@ -254,10 +242,10 @@ export async function getExpenses(userId: UserID, date: Date) {
   return expenses;
 }
 
-export async function compareExpenses(userId: UserID, date: listDatesCompare) {
+export async function compareExpenses(userId, date) {
   const [a, b] = date;
 
-  const res: any = { a: [], b: [] };
+  const res = { a: [], b: [] };
 
   const q1 = query(
     collection(db, `users/${userId}/expenses`),

@@ -6,7 +6,7 @@ import App from "app/App";
 import { store } from "app/store";
 
 const root = ReactDOM.createRoot(
-  document.getElementById("root") as HTMLElement
+  document.getElementById("root")
 );
 root.render(
   <BrowserRouter>

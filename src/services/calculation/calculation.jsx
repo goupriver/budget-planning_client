@@ -1,10 +1,8 @@
-import { Budget, IExpense } from "types/types";
-
-export const budgetPercentage = (arr: IExpense[], budget: Budget): number => {
+export const budgetPercentage = (arr, budget) => {
   return Math.round((arr.reduce((a, b) => a + b.amount, 0) * 100) / budget);
 };
 
-export const totalAmount = (arr: IExpense[] | undefined): number => {
+export const totalAmount = (arr) => {
   if (arr === undefined) {
     return 0;
   } else {
@@ -12,7 +10,7 @@ export const totalAmount = (arr: IExpense[] | undefined): number => {
   }
 };
 
-export const verticalChart = ({ expensesList }): [string[], number[] | []] => {
+export const verticalChart = ({ expensesList }) => {
   const obj = {
     Total: 0,
     Bills: 0,

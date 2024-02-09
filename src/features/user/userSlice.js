@@ -2,19 +2,13 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { changeCurrency, createUser, getUser } from "services/firebase/ferestore/firestore";
 import { Currency, Email, Error, IUser, Status, UID, UserID } from "types/types";
 
-interface IState {
-  user: IUser;
-  status: Status;
-  error: Error;
-}
-
-const initialState: IState = {
+const initialState = {
   user: { currency: '', email: '', userId: '' },
   status: 'idle',
   error: null
 }
 
-export const initUser = createAsyncThunk('user/createUser', async ({ uid, email }: { uid: UID; email: Email }, { rejectWithValue }) => {
+export const initUser = createAsyncThunk('user/createUser', async ({ uid, email }, { rejectWithValue }) => {
   try {
     const user = await createUser({ uid, email })
     return user
@@ -23,7 +17,7 @@ export const initUser = createAsyncThunk('user/createUser', async ({ uid, email 
   }
 })
 
-export const fetchUser = createAsyncThunk('user/fetchUser', async (uid: UID, { rejectWithValue }) => {
+export const fetchUser = createAsyncThunk('user/fetchUser', async (uid, { rejectWithValue }) => {
   try {
     const data = await getUser(uid)
     return data
@@ -32,7 +26,7 @@ export const fetchUser = createAsyncThunk('user/fetchUser', async (uid: UID, { r
   }
 })
 
-export const currencyChange = createAsyncThunk('user/currency', async ({userId, currency}: {userId: UserID; currency: Currency}, { rejectWithValue }) => {
+export const currencyChange = createAsyncThunk('user/currency', async ({userId, currency}, { rejectWithValue }) => {
   try {
     const data = await changeCurrency(userId, currency)
     return data
@@ -62,7 +56,7 @@ export const userSlice = createSlice({
         state.status = 'succeeded'
       })
       .addCase(initUser.rejected, (state, action) => {
-        state.error = action.payload as null
+        state.error = action.payload
         state.status = 'failed'
       })
       .addCase(fetchUser.pending, (state) => {
@@ -74,7 +68,7 @@ export const userSlice = createSlice({
         state.status = 'succeeded'
       })
       .addCase(fetchUser.rejected, (state, action) => {
-        state.error = action.payload as null
+        state.error = action.payload 
         state.status = 'failed'
       })
       .addCase(currencyChange.pending, (state) => {
@@ -86,7 +80,7 @@ export const userSlice = createSlice({
         state.status = 'succeeded'
       })
       .addCase(currencyChange.rejected, (state, action) => {
-        state.error = action.payload as null
+        state.error = action.payload 
         state.status = 'failed'
       })
   }

@@ -1,7 +1,5 @@
-import { IExpense, IListExpenses } from "types/types"
-
-export function prepareListExpenses(expenses: IExpense[]): { listExpenses: IListExpenses; listDates: string[] } {
-  let listExpenses: IListExpenses = {}
+export function prepareListExpenses(expenses) {
+  let listExpenses = {}
 
   expenses.forEach(e => {
     const date = new Date(Date.parse(e.date)).getFullYear() + "-" + new Date(Date.parse(e.date)).getMonth() + "-" + new Date(Date.parse(e.date)).getDate()
@@ -16,7 +14,7 @@ export function prepareListExpenses(expenses: IExpense[]): { listExpenses: IList
     }
   })
 
-  const listDates: string[] = Object.keys(listExpenses);
+  const listDates = Object.keys(listExpenses);
 
   return { listExpenses, listDates }
 }

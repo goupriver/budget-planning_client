@@ -13,15 +13,7 @@ import {
   UserID,
 } from "types/types";
 
-interface IState {
-  expenses: IExpense[];
-  error: Error;
-  status: Status;
-  expensesCompare: { a: IExpense[]; b: IExpense[] } | {a: [], b: []};
-  expensesCompareStatus: Status;
-}
-
-const initialState: IState = {
+const initialState = {
   expenses: [],
   expensesCompare: {a: [], b: []},
   error: null,
@@ -29,19 +21,9 @@ const initialState: IState = {
   expensesCompareStatus: "idle"
 };
 
-interface IFetchExpenses {
-  userId: UserID;
-  date: Date;
-}
-
-interface IAddExpenses {
-  userId: UserID;
-  expense: INewExpense;
-}
-
 export const expensesFetch = createAsyncThunk(
   "expenses/fetch",
-  async ({ userId, date }: IFetchExpenses, { rejectWithValue }) => {
+  async ({ userId, date }, { rejectWithValue }) => {
     try {
       const expenses = await getExpenses(userId, date);
       return expenses;
@@ -53,7 +35,7 @@ export const expensesFetch = createAsyncThunk(
 
 export const createExpense = createAsyncThunk(
   "expense/create",
-  async (data: IAddExpenses, { rejectWithValue }) => {
+  async (data, { rejectWithValue }) => {
     try {
       const { userId, expense } = data;
       const res = await addExpense(userId, expense);
@@ -67,7 +49,7 @@ export const createExpense = createAsyncThunk(
 export const compareExpensesDate = createAsyncThunk(
   "expense/compare",
   async (
-    data: { userId: string; date: listDatesCompare },
+    data,
     { rejectWithValue }
   ) => {
     try {
@@ -98,7 +80,7 @@ export const expensesSlice = createSlice({
         state.status = "loading";
       })
       .addCase(expensesFetch.fulfilled, (state, action) => {
-        state.expenses = action.payload!;
+        state.expenses = action.payload;
         state.status = "succeeded";
       })
       .addCase(expensesFetch.rejected, (state, action) => {

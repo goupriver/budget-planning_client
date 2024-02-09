@@ -7,15 +7,7 @@ import {
 } from "services/firebase/ferestore/firestore";
 import { Budget, Error, IBudget, Status, UserID } from "types/types";
 
-interface IState {
-  budget: IBudget | {};
-  error: Error;
-  status: Status;
-  budgetCompare: {a: any, b: any};
-  budgetCompareStatus: Status;
-}
-
-const initialState: IState = {
+const initialState = {
   budget: {},
   budgetCompare: {a: {year: '', month: '', budget: ''}, b: {year: '', month: '', budget: ''}},
   budgetCompareStatus: 'idle',
@@ -26,7 +18,7 @@ const initialState: IState = {
 export const initBudget = createAsyncThunk(
   "budget/init",
   async (
-    data: { userId: UserID; date: Date; budget: Budget },
+    data,
     { rejectWithValue }
   ) => {
     try {
@@ -42,7 +34,7 @@ export const initBudget = createAsyncThunk(
 export const editBudget = createAsyncThunk(
   "budget/edit",
   async (
-    data: { userId: UserID; date: Date; budget: Budget },
+    data,
     { rejectWithValue }
   ) => {
     
@@ -58,7 +50,7 @@ export const editBudget = createAsyncThunk(
 
 export const budgetFetch = createAsyncThunk(
   "budget/fetch",
-  async ({userId, date}: {userId: UserID, date: Date}, { rejectWithValue }) => {
+  async ({userId, date}, { rejectWithValue }) => {
     try {
       const budget = await getBudget(userId, date);
       return budget;
@@ -70,7 +62,7 @@ export const budgetFetch = createAsyncThunk(
 
 export const budgetCompare = createAsyncThunk(
   "budget/compare",
-  async ({userId, date}: {userId: UserID, date: {a: Date, b: Date}}, { rejectWithValue }) => {
+  async ({userId, date}, { rejectWithValue }) => {
     try {
       const budget = await compareBudget(userId, date);
       return budget;
